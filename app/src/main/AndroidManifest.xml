@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ramyaky.scorecard" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".startupScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".newGame"
+            android:label="@string/title_activity_new_game" >
+        </activity>
+        <activity
+            android:name=".startFreshGame"
+            android:label="@string/title_activity_start_fresh_game" >
+        </activity>
+        <activity
+            android:name=".currentGameScorecard"
+            android:label="@string/title_activity_current_game_scorecard" >
+        </activity>
+        <activity
+            android:name=".gameHistory"
+            android:label="@string/title_activity_game_history" >
+        </activity>
+    </application>
+
+</manifest>
