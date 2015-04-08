@@ -118,6 +118,11 @@ public class startFreshGame extends ActionBarActivity {
 
                         gameObject gameJsonObject = new gameObject(gameName.getText().toString(), ts.toString(), modeType.getText().toString(), false, namesList, scoresList);
 
+                        SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
+                        String dateString = gameJsonObject.getGameStartTime();
+                        dbObj.addRecord(dateString, gameJsonObject, "none");
+
+
                         Intent intent = new Intent(getApplicationContext(), currentGameScorecard.class);
                         intent.putExtra("GameObject", gameJsonObject);
                         startActivity(intent);
