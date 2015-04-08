@@ -21,7 +21,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "scoreCardManager";
     private static final String TABLE_NAME = "scoreCard";
 
-    private static final String KEY_GAME_START_TIME = "gameStartTime";
+    String KEY_GAME_START_TIME = "gameStartTime";
     String KEY_GAME_NAME = "gameName";
     String KEY_GAME_WINNER = "gameWinner";
     String KEY_GAME_TYPE = "gameType";
@@ -29,6 +29,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     String KEY_GAME_PLAYERS = "gamePlayers";
     String KEY_GAME_SCORES = "gameScores";
     String KEY_GAME_IS_END = "gameIsEnd";
+    String KEY_GAME_TOTAL_SCORES = "gameTotalScores";
 
     public SQLiteDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,8 +40,10 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         String CREATE_SCORECARD_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_GAME_START_TIME + " TEXT PRIMARY KEY," + KEY_GAME_NAME + " TEXT,"
-                + KEY_GAME_WINNER + " TEXT, " + KEY_GAME_TYPE + " TEXT, " + KEY_GAME_END_TIME + " TEXT, " + KEY_GAME_PLAYERS + " TEXT, " + KEY_GAME_SCORES + " TEXT, " + KEY_GAME_IS_END + " TEXT" + ")";
+                + KEY_GAME_WINNER + " TEXT, " + KEY_GAME_TYPE + " TEXT, " + KEY_GAME_END_TIME + " TEXT, "
+                + KEY_GAME_PLAYERS + " TEXT, " + KEY_GAME_SCORES + " TEXT, " + KEY_GAME_IS_END + " TEXT, " + KEY_GAME_TOTAL_SCORES + " TEXT" + ")";
         db.execSQL(CREATE_SCORECARD_TABLE);
+        System.out.println("Successfully created SCORECARD table");
     }
 
     @Override
@@ -84,6 +87,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GAME_TYPE, details.getGameType());
         values.put(KEY_GAME_IS_END, details.isGameEnd());
         values.put(KEY_GAME_WINNER, winner);
+        values.put(KEY_GAME_TOTAL_SCORES, details.getGameTotalScores());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -100,6 +104,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_GAME_SCORES, details.getGameScores().toString());
         values.put(KEY_GAME_WINNER, winner);
+        values.put(KEY_GAME_TOTAL_SCORES, details.getGameTotalScores());
 
         db.update(TABLE_NAME,values, KEY_GAME_START_TIME + " = ?", new String[] {date} );
     }
@@ -112,7 +117,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<JSONObject> listOfJsonObjects = new ArrayList<JSONObject>();
 
-        String QUERY = "SELECT " + KEY_GAME_START_TIME + "," + KEY_GAME_NAME + "," + KEY_GAME_WINNER + " FROM " + TABLE_NAME;
+        String QUERY = "SELECT " + KEY_GAME_START_TIME + "," + KEY_GAME_NAME + "," + KEY_GAME_WINNER + "," + KEY_GAME_TOTAL_SCORES + "," + KEY_GAME_SCORES + " FROM " + TABLE_NAME;
         Cursor cursor = db.rawQuery(QUERY,null);
 
         System.out.println("Total no.of rows in DB : " +cursor.getCount());
@@ -121,11 +126,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 //System.out.println("Has elements");
                 while (!cursor.isAfterLast()) {
-                    System.out.println("Creating object");
+                    //System.out.println("Creating object");
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("time", cursor.getString(0));
                     jsonObject.put("name", cursor.getString(1));
                     jsonObject.put("winner", cursor.getString(2));
+                    jsonObject.put("total",cursor.getString(3));
+                    jsonObject.put("scores", cursor.getString(4));
                     listOfJsonObjects.add(jsonObject);
                     cursor.moveToNext();
                 }
@@ -133,7 +140,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         }catch(Exception e){
             e.printStackTrace();
         }
-        //System.out.println("Total no.of rows in DB : " +cursor.getCount());
+
         cursor.close();
         System.out.println("Sending ietms : " + listOfJsonObjects);
         return listOfJsonObjects;

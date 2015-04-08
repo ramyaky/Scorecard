@@ -24,6 +24,8 @@ public class gameObject implements Parcelable{
     String _gameType;
     ArrayList<String> _gamePlayers;
     ArrayList<String> _gameScores;
+    String _gameTotalScores;
+
 
 
     public gameObject() {
@@ -67,6 +69,8 @@ public class gameObject implements Parcelable{
         return this._gamePlayerGroups;
     }
 
+    public String getGameTotalScores() { return this._gameTotalScores; }
+
     public ArrayList<String> getGamePlayers() {
         return this._gamePlayers;
     }
@@ -96,6 +100,8 @@ public class gameObject implements Parcelable{
     public void setGameIsEnd(boolean gIsEnd) {
         this._gameIsEnd = gIsEnd;
     }
+
+    public void setGameTotalScores(String gTotalScores) { this._gameTotalScores = gTotalScores; }
 
     public void setGamePlayers(ArrayList<String> gPlayers) {
         this._gamePlayers = gPlayers;

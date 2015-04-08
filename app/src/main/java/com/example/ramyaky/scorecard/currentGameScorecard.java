@@ -78,7 +78,7 @@ public class currentGameScorecard extends ActionBarActivity {
                 playersList[i].setId(i);
 
                 currentValueList[i].setInputType(InputType.TYPE_CLASS_NUMBER);
-                currentValueList[i].setText("0");
+                //currentValueList[i].setText("0");
                 currentValueList[i].setTextColor(Color.BLACK);
                 currentValueList[i].setSelectAllOnFocus(true);
 
@@ -151,11 +151,12 @@ public class currentGameScorecard extends ActionBarActivity {
                             int currentTotalValue = currentValue + Integer.parseInt(totalValues[i].getText().toString());
                             totalValues[i].setText("" + currentTotalValue);
                             totalScores.put(playersList[i].getText().toString(), totalValues[i].getText().toString());
-                            currentValues[i].setText("0");
+                            currentValues[i].setText("");
                         }
 
                         tmpScores.add(tmpObj.toString());
                         gameParcelableObject.setGameScores(tmpScores);
+                        gameParcelableObject.setGameTotalScores(totalScores.toString());
                         tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
                         updateDatabase(gameParcelableObject);
 
@@ -171,20 +172,17 @@ public class currentGameScorecard extends ActionBarActivity {
 
     public void updateDatabase(gameObject myObj){
         try{
-            System.out.println("Creating database handler");
+            //System.out.println("Creating database handler");
             SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
 
             String dateString = myObj.getGameStartTime();
-            int y=0;
+
             if(dbObj.checkRecordExists(dateString)) {
-                y = 2;
-                System.out.println("Updating the existing Record");
+                //System.out.println("Updating the existing Record");
                 dbObj.updateGameScoreRecord(dateString, myObj, "none");
             }else {
-                y=3;
                 dbObj.addRecord(dateString, myObj, "none");
             }
-            System.out.println("Value of Y is : " +y);
             dbObj.getAllRecords();
 
         }catch(Exception e){

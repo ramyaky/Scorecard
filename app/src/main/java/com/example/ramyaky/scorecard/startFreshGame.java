@@ -105,7 +105,7 @@ public class startFreshGame extends ActionBarActivity {
                     try {
                         ArrayList<String> namesList = new ArrayList<String>(namesMap.keySet());
                         gameName.setError(null);
-                        JSONArray jsonNamesList = new JSONArray(namesMap.keySet());
+                        //JSONArray jsonNamesList = new JSONArray(namesMap.keySet());
 
                         Timestamp ts = new Timestamp(new Date().getTime());
                         JSONObject scoresJsonObject = new JSONObject();

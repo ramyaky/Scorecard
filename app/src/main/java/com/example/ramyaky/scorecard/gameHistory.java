@@ -14,7 +14,11 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class gameHistory extends ActionBarActivity {
@@ -65,7 +69,10 @@ public class gameHistory extends ActionBarActivity {
 
                 JSONObject gameRecord = gameRecordslist.get(position);
 
-                time.setText(gameRecord.getString("time"));
+                //String timeString = gameRecord.getString("time");
+                String simpleTimeString = getSimpleTimeString(gameRecord.getString("time"));
+
+                time.setText(simpleTimeString);
                 name.setText(gameRecord.getString("name"));
 
             }catch(Exception e){
@@ -75,6 +82,34 @@ public class gameHistory extends ActionBarActivity {
             return convertView;
 
         }
+    }
+
+    public String getSimpleTimeString(String tsString){
+        String timeString = "";
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(tsString);
+            Timestamp ts = new Timestamp(parsedDate.getTime());
+            long gameStartTimeInseconds = ts.getTime() / 1000;
+            long currentTimeInSeconds = (new Timestamp(new Date().getTime())).getTime() / 1000;
+            long difference = ( currentTimeInSeconds - gameStartTimeInseconds );
+
+            if(difference < 3600) {
+                timeString = difference / 60 + " min(s) ago";
+            }else if(difference > 3600 && difference < 86400) {
+
+                timeString = difference / (60 * 60) + " hour(s) " + (difference % (60 * 60)) / 60 + " mins ago";
+            }else if ( difference > 86400 && difference < 2592000) {
+                timeString = difference / ( 60 * 60 * 24) + " month(s) ago";
+            }else if( difference > 2592000 && difference < 31104000) {
+                timeString = difference / (60 * 60 * 24 * 30) + " year(s) ago";
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return timeString;
     }
 
     public ArrayList<JSONObject> getDataforListViews(){
