@@ -46,32 +46,8 @@ public class currentGameScorecard extends ActionBarActivity {
         int noOfPlayers = 0;
 
         gameParcelableObject = b.getParcelable("GameObject");
-        /*gameObject gameParcelableObject = b.getParcelable("GameObject");
-        System.out.println("----------------- Printing my values -----------------");
-        System.out.println(gameParcelableObject.getGameName());
-        System.out.println(gameParcelableObject.getGamePlayers());
-        System.out.println(gameParcelableObject.getGameScores());
-
-        for(String value : gameParcelableObject.getGameScores()){
-            try {
-                JSONObject j = new JSONObject(value);
-                System.out.println("Printing my actual json : " + j);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        } */
-
 
         try {
-            //gameObject gameParcelableObject = b.getParcelable("GameObject");
-            //gameJsonObject = new JSONObject(b.getString("GameJsonObject"));
-
-            /*String gameName = gameJsonObject.getString("GameName");
-            JSONArray namesList = gameJsonObject.getJSONArray("Players");
-            System.out.println("Printing namesList : " + namesList);
-            JSONArray scoresList = gameJsonObject.getJSONArray("Scores");
-            noOfPlayers = namesList.length();
-            System.out.println("Printing size of players list : " + noOfPlayers); */
 
             String gameName = gameParcelableObject.getGameName();
             ArrayList<String> namesList = gameParcelableObject.getGamePlayers();
@@ -106,7 +82,6 @@ public class currentGameScorecard extends ActionBarActivity {
                 currentValueList[i].setTextColor(Color.BLACK);
                 currentValueList[i].setSelectAllOnFocus(true);
 
-                final int j = i;
                 currentValueList[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
@@ -133,7 +108,7 @@ public class currentGameScorecard extends ActionBarActivity {
                 tr.addView(playersTotalValues[i]);
 
                 scoreTable.addView(tr);
-                //i++;
+
             }
 
             doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, playersList, currentValueList, playersPreviousValues, playersTotalValues));
@@ -164,7 +139,6 @@ public class currentGameScorecard extends ActionBarActivity {
                 if(allGood) {
                     try {
 
-                        //JSONArray tmpScores = gameJsonObject.getJSONArray("Scores");
                         ArrayList<String> tmpScores = gameParcelableObject.getGameScores();
                         JSONObject totalScores = new JSONObject();
                         JSONObject tmpObj = new JSONObject();
@@ -179,14 +153,6 @@ public class currentGameScorecard extends ActionBarActivity {
                             totalScores.put(playersList[i].getText().toString(), totalValues[i].getText().toString());
                             currentValues[i].setText("0");
                         }
-
-                        /*tmpScores.put(tmpObj);
-                        gameJsonObject.put("Scores", tmpScores);
-                        gameJsonObject.put("TotalScores", totalScores);
-
-                        tvRound.setText("Round " + gameJsonObject.getJSONArray("Scores").length());
-                        System.out.println("My JSON : " + gameJsonObject);
-                        updateDatabase(gameJsonObject); */
 
                         tmpScores.add(tmpObj.toString());
                         gameParcelableObject.setGameScores(tmpScores);
@@ -225,32 +191,6 @@ public class currentGameScorecard extends ActionBarActivity {
             e.printStackTrace();
         }
     }
-
-    /*public void updateDatabase(JSONObject gameJsonObject){
-
-        try {
-            System.out.println("Creating database handler");
-            SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
-
-            String dateString = gameJsonObject.getString("StartTime");
-            int y = 0;
-            if(dbObj.checkRecordExists(dateString)) {
-                y=2;
-                System.out.println("Updating the existing Record");
-                dbObj.updateRecord(dateString,gameJsonObject,"none");
-            }else {
-                y=3;
-                dbObj.addRecord(dateString, gameJsonObject, "none");
-            }
-            System.out.println("Value of Y is : " +y);
-            dbObj.getAllRecords();
-
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("Error Message : " + e);
-        }
-    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

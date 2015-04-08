@@ -128,52 +128,6 @@ public class startFreshGame extends ActionBarActivity {
                     }
 
                 }
-
-                /*else {
-                    ArrayList<String> namesList = new ArrayList<String>(namesMap.keySet());
-                    gameName.setError(null);
-                    JSONArray jsonNamesList = new JSONArray(namesMap.keySet());
-
-
-                    Timestamp ts = new Timestamp(new Date().getTime());
-                    JSONObject gameJsonObject = new JSONObject();
-                    JSONObject scoresJsonObject = new JSONObject();
-                    ArrayList<JSONObject> scoresList = new ArrayList<JSONObject>();
-
-                    // Creating JSON to store game data
-                    try {
-                        gameJsonObject.put("GameName", gameName.getText().toString());
-                        gameJsonObject.put("StartTime", ts.toString());
-                        gameJsonObject.put("EndTime", "");
-                        gameJsonObject.put("PlayerGroups", "");
-                        gameJsonObject.put("GameType", modeType.getText().toString());
-                        gameJsonObject.put("Players", jsonNamesList);
-                        gameJsonObject.put("isEnd", false);
-
-                        for(String player : namesList) {
-                            scoresJsonObject.put(player,0);
-                        }
-                        scoresList.add(scoresJsonObject);
-                        gameJsonObject.put("Scores", scoresList);
-
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-
-                    Intent intent = new Intent(getApplicationContext(), currentGameScorecard.class);
-
-                    Bundle b = new Bundle();
-                    b.putString("GameJsonObject", gameJsonObject.toString());
-                    //b.putString("GameJsonObject", gameJsonObject.toJSONString());
-                    //b.putStringArrayList("namesList", namesList);
-                    //b.putString("winMode", modeType.getText().toString());
-                    //b.putString("gameName", gameName.getText().toString());
-
-                    intent.putExtras(b);
-                    startActivity(intent);
-
-                }  */
-
             }
 
         };

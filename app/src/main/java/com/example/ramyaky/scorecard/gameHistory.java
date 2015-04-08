@@ -25,9 +25,6 @@ public class gameHistory extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_history);
 
-        //SQLiteDatabaseHandler dbobj = new SQLiteDatabaseHandler(getApplicationContext());
-        //ArrayList<JSONObject> items = dbobj.getAllRecords();
-        //System.out.println("Rows : " + items);
         scoreCardAdapter gameRecordListAdapter = new scoreCardAdapter();
         ListView gameHistoryListView = (ListView) findViewById(R.id.listView);
         gameHistoryListView.setAdapter(gameRecordListAdapter);
