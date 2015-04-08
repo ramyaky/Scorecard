@@ -36,7 +36,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-
+        android:isScrollContainer="false"
         android:layout_above="@+id/doneEntering">
 
         <LinearLayout
@@ -57,6 +57,8 @@
         </LinearLayout>
     </ScrollView>
 
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,18 +67,21 @@
         android:layout_gravity="center_horizontal"
 
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"></Button>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/doneEntering"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linear_layout_for_button"></LinearLayout>
+        android:layout_marginLeft="46dp"
+        android:layout_marginStart="46dp"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Details"
+        android:id="@+id/viewDetails"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/doneEntering"
+        android:layout_toEndOf="@+id/doneEntering" />
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -143,6 +148,8 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

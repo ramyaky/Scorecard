@@ -7,6 +7,6 @@
     <string name="title_activity_new_game">Scoreboard</string>
     <string name="title_activity_start_fresh_game">Start New Game</string>
     <string name="title_activity_current_game_scorecard">Scorecard</string>
-    <string name="title_activity_game_history">gameHistory</string>
+    <string name="title_activity_game_history">History</string>
 
 </resources>
