@@ -32,6 +32,10 @@
             android:name=".gameHistory"
             android:label="@string/title_activity_game_history" >
         </activity>
+        <activity
+            android:name=".gameDetails"
+            android:label="@string/title_activity_game_details" >
+        </activity>
     </application>
 
 </manifest>

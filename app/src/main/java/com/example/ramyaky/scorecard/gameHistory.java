@@ -101,9 +101,11 @@ public class gameHistory extends ActionBarActivity {
 
                 timeString = difference / (60 * 60) + " hour(s) " + (difference % (60 * 60)) / 60 + " mins ago";
             }else if ( difference > 86400 && difference < 2592000) {
-                timeString = difference / ( 60 * 60 * 24) + " month(s) ago";
+                timeString = difference / ( 60 * 60 * 24) + " days(s) ago";
             }else if( difference > 2592000 && difference < 31104000) {
-                timeString = difference / (60 * 60 * 24 * 30) + " year(s) ago";
+                timeString = difference / (60 * 60 * 24 * 30) + " months(s) ago";
+            }else if( difference > 31104000 ) {
+                timeString = difference / (60 * 60 * 24 * 30 * 12) + " years(s) ago";
             }
 
         }catch(Exception e){

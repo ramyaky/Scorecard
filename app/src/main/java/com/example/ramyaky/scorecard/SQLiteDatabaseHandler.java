@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.StringTokenizer;
 
 /**
  * Created by ramyaky on 4/1/15.
@@ -30,6 +31,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     String KEY_GAME_SCORES = "gameScores";
     String KEY_GAME_IS_END = "gameIsEnd";
     String KEY_GAME_TOTAL_SCORES = "gameTotalScores";
+    String separator = " @&@ ";
 
     public SQLiteDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -74,6 +76,28 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public String arrayToString(ArrayList<String> st){
+        String arrayString = "";
+
+        for(String t : st){
+            arrayString = arrayString + t + separator;
+
+        }
+        System.out.println("Printing arrayToString one : " +arrayString);
+        return arrayString;
+    }
+
+    public ArrayList<String> stringToArray(String st) {
+        ArrayList<String> stringToArray = new ArrayList<String>();
+        String[] splitString = st.split(separator);
+        for(String t : splitString){
+            stringToArray.add(t);
+        }
+        System.out.println("Printing stringToArray one : " + stringToArray);
+        return stringToArray;
+    }
+
+
     public void addRecord(String date, gameObject details, String winner){
         System.out.println("Adding record");
         SQLiteDatabase db = this.getWritableDatabase();
@@ -82,12 +106,12 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GAME_START_TIME, date);
         values.put(KEY_GAME_NAME, details.getGameName());
         values.put(KEY_GAME_END_TIME, details.getGameEndTime());
-        values.put(KEY_GAME_PLAYERS, details.getGamePlayers().toString());
-        values.put(KEY_GAME_SCORES, details.getGameScores().toString());
+        values.put(KEY_GAME_PLAYERS, arrayToString(details.getGamePlayers()));
+        values.put(KEY_GAME_SCORES, arrayToString(details.getGameScores()));
         values.put(KEY_GAME_TYPE, details.getGameType());
         values.put(KEY_GAME_IS_END, details.isGameEnd());
         values.put(KEY_GAME_WINNER, winner);
-        values.put(KEY_GAME_TOTAL_SCORES, details.getGameTotalScores());
+        values.put(KEY_GAME_TOTAL_SCORES, arrayToString(details.getGameTotalScores()));
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -102,9 +126,9 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_GAME_SCORES, details.getGameScores().toString());
+        values.put(KEY_GAME_SCORES, arrayToString(details.getGameScores()));
         values.put(KEY_GAME_WINNER, winner);
-        values.put(KEY_GAME_TOTAL_SCORES, details.getGameTotalScores());
+        values.put(KEY_GAME_TOTAL_SCORES, arrayToString(details.getGameTotalScores()));
 
         db.update(TABLE_NAME,values, KEY_GAME_START_TIME + " = ?", new String[] {date} );
     }
@@ -144,5 +168,36 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         System.out.println("Sending ietms : " + listOfJsonObjects);
         return listOfJsonObjects;
+    }
+
+    public gameObject getGameRecord(String gStartTime, String gName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        gameObject gameRecordDetails = new gameObject();
+
+        String QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_GAME_START_TIME + " = \"" + gStartTime + "\"" + " AND " + KEY_GAME_NAME + " = \"" + gName + "\"";
+        Cursor cursor = db.rawQuery(QUERY,null);
+
+        System.out.println("Total no.of rows satisfying condition : " +cursor.getCount());
+
+        try{
+            if(cursor.moveToFirst())
+            {
+                while(!cursor.isAfterLast()){
+                    System.out.println("In loop");
+                    gameRecordDetails.setGameStartTime(cursor.getString(0));
+                    gameRecordDetails.setGameName(cursor.getString(1));
+                    gameRecordDetails.setGameType(cursor.getString(3));
+                    gameRecordDetails.setGameEndTime(cursor.getString(4));
+                    gameRecordDetails.setGamePlayers(stringToArray(cursor.getString(5)));
+                    gameRecordDetails.setGameScores(stringToArray(cursor.getString(6)));
+                    gameRecordDetails.setGameIsEnd(Boolean.valueOf(cursor.getString(7)));
+                    gameRecordDetails.setGameTotalScores(stringToArray(cursor.getString(8)));
+                    cursor.moveToNext();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return gameRecordDetails;
     }
 }

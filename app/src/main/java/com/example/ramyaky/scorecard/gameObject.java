@@ -19,12 +19,12 @@ public class gameObject implements Parcelable{
     String _gameName;
     String _gameStartTime;
     boolean _gameIsEnd;
-    String _gameEndTime;
-    String _gamePlayerGroups;
+    String _gameEndTime = "";
+    String _gamePlayerGroups = "";
     String _gameType;
     ArrayList<String> _gamePlayers;
     ArrayList<String> _gameScores;
-    String _gameTotalScores;
+    ArrayList<String> _gameTotalScores;
 
 
 
@@ -32,7 +32,7 @@ public class gameObject implements Parcelable{
 
     }
 
-    public gameObject(String gName, String gStartTime, String gType, boolean gIsEnd, ArrayList<String> gPlayers, ArrayList<String> gScores) {
+    public gameObject(String gName, String gStartTime, String gType, boolean gIsEnd, ArrayList<String> gPlayers, ArrayList<String> gScores, ArrayList<String> gTotalScores) {
         this._gameName = gName;
         this._gameStartTime = gStartTime;
         this._gameType = gType;
@@ -41,6 +41,7 @@ public class gameObject implements Parcelable{
         //this._gamePlayerGroups = "";
         this._gamePlayers = gPlayers;
         this._gameScores = gScores;
+        this._gameTotalScores = gTotalScores;
     }
 
     /* All get methods */
@@ -69,7 +70,7 @@ public class gameObject implements Parcelable{
         return this._gamePlayerGroups;
     }
 
-    public String getGameTotalScores() { return this._gameTotalScores; }
+    public ArrayList<String> getGameTotalScores() { return this._gameTotalScores; }
 
     public ArrayList<String> getGamePlayers() {
         return this._gamePlayers;
@@ -93,6 +94,8 @@ public class gameObject implements Parcelable{
         this._gameType = gType;
     }
 
+    public void setGameStartTime(String gStartTime) { this._gameStartTime = gStartTime; }
+
     public void setGameName(String gName) {
         this._gameName = gName;
     }
@@ -101,7 +104,7 @@ public class gameObject implements Parcelable{
         this._gameIsEnd = gIsEnd;
     }
 
-    public void setGameTotalScores(String gTotalScores) { this._gameTotalScores = gTotalScores; }
+    public void setGameTotalScores(ArrayList<String> gTotalScores) { this._gameTotalScores = gTotalScores; }
 
     public void setGamePlayers(ArrayList<String> gPlayers) {
         this._gamePlayers = gPlayers;
@@ -126,6 +129,7 @@ public class gameObject implements Parcelable{
         b.putBoolean("IsGameEnd", _gameIsEnd);
         b.putStringArrayList("GamePlayers", _gamePlayers);
         b.putStringArrayList("GameScores", _gameScores);
+        b.putStringArrayList("GameTotalScores", _gameTotalScores);
 
         dest.writeBundle(b);
     }
@@ -136,7 +140,7 @@ public class gameObject implements Parcelable{
             Bundle b = new Bundle();
             b = source.readBundle();
 
-            return new gameObject(b.getString("GameName"), b.getString("GameStartTime"), b.getString("GameType"), b.getBoolean("IsGameEnd"), b.getStringArrayList("GamePlayers"), b.getStringArrayList("GameScores"));
+            return new gameObject(b.getString("GameName"), b.getString("GameStartTime"), b.getString("GameType"), b.getBoolean("IsGameEnd"), b.getStringArrayList("GamePlayers"), b.getStringArrayList("GameScores"), b.getStringArrayList("GameTotalScores"));
 
         }
 

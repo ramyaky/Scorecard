@@ -1,5 +1,8 @@
 package com.example.ramyaky.scorecard;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -40,6 +43,7 @@ public class currentGameScorecard extends ActionBarActivity {
         TextView tvRound = (TextView) findViewById(R.id.round);
         TableLayout scoreTable = (TableLayout) findViewById(R.id.scoreTable);
         final Button doneEntering = (Button) findViewById(R.id.doneEntering);
+        final Button viewDetails = (Button) findViewById(R.id.viewDetails);
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         Bundle b = getIntent().getExtras();
@@ -51,7 +55,7 @@ public class currentGameScorecard extends ActionBarActivity {
 
             String gameName = gameParcelableObject.getGameName();
             ArrayList<String> namesList = gameParcelableObject.getGamePlayers();
-            ArrayList<String> scoresList = gameParcelableObject.getGameScores();
+            final ArrayList<String> scoresList = gameParcelableObject.getGameScores();
             noOfPlayers = namesList.size();
 
             playersList = new TextView[noOfPlayers];
@@ -112,12 +116,23 @@ public class currentGameScorecard extends ActionBarActivity {
             }
 
             doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, playersList, currentValueList, playersPreviousValues, playersTotalValues));
+            viewDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), gameDetails.class);
+                    intent.putExtra("gameName", gameParcelableObject.getGameName());
+                    intent.putExtra("startTime", gameParcelableObject.getGameStartTime());
+                    intent.putExtra("round", scoresList.size());
+                    startActivity(intent);
+                }
+            });
 
         }catch( Exception e){
             System.out.println(e);
             e.printStackTrace();
         }
     }
+
 
 
     public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues ) {
@@ -140,8 +155,9 @@ public class currentGameScorecard extends ActionBarActivity {
                     try {
 
                         ArrayList<String> tmpScores = gameParcelableObject.getGameScores();
-                        JSONObject totalScores = new JSONObject();
+                        ArrayList<String> totalScores = new ArrayList<String>();
                         JSONObject tmpObj = new JSONObject();
+                        JSONObject tmpObjTotal = new JSONObject();
 
                         for (int i = 0; i < noOfPlayers; i++) {
 
@@ -150,13 +166,14 @@ public class currentGameScorecard extends ActionBarActivity {
                             previousValues[i].setText("" + currentValue);
                             int currentTotalValue = currentValue + Integer.parseInt(totalValues[i].getText().toString());
                             totalValues[i].setText("" + currentTotalValue);
-                            totalScores.put(playersList[i].getText().toString(), totalValues[i].getText().toString());
+                            tmpObjTotal.put(playersList[i].getText().toString(), totalValues[i].getText().toString());
                             currentValues[i].setText("");
                         }
 
                         tmpScores.add(tmpObj.toString());
+                        totalScores.add(tmpObjTotal.toString());
                         gameParcelableObject.setGameScores(tmpScores);
-                        gameParcelableObject.setGameTotalScores(totalScores.toString());
+                        gameParcelableObject.setGameTotalScores(totalScores);
                         tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
                         updateDatabase(gameParcelableObject);
 

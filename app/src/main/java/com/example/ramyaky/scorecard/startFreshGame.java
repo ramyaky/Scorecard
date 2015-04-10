@@ -110,13 +110,15 @@ public class startFreshGame extends ActionBarActivity {
                         Timestamp ts = new Timestamp(new Date().getTime());
                         JSONObject scoresJsonObject = new JSONObject();
                         ArrayList<String> scoresList = new ArrayList<String>();
+                        ArrayList<String> totalScores = new ArrayList<String>();
 
                         for (String player : namesList) {
                             scoresJsonObject.put(player, 0);
                         }
                         scoresList.add(scoresJsonObject.toString());
+                        totalScores = scoresList;
 
-                        gameObject gameJsonObject = new gameObject(gameName.getText().toString(), ts.toString(), modeType.getText().toString(), false, namesList, scoresList);
+                        gameObject gameJsonObject = new gameObject(gameName.getText().toString(), ts.toString(), modeType.getText().toString(), false, namesList, scoresList, totalScores);
 
                         SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
                         String dateString = gameJsonObject.getGameStartTime();

@@ -8,5 +8,7 @@
     <string name="title_activity_start_fresh_game">Start New Game</string>
     <string name="title_activity_current_game_scorecard">Scorecard</string>
     <string name="title_activity_game_history">History</string>
+    <string name="title_activity_game_details">Game Details</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

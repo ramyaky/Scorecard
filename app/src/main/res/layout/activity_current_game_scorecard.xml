@@ -79,6 +79,7 @@
         android:id="@+id/viewDetails"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/doneEntering"
         android:layout_toEndOf="@+id/doneEntering" />
 
@@ -148,8 +149,5 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
-
-
-
 
 </RelativeLayout>
