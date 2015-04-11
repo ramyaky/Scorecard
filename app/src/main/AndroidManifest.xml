@@ -36,6 +36,10 @@
             android:name=".GameDetails"
             android:label="@string/title_activity_game_details" >
         </activity>
+        <activity
+            android:name=".GameContinuity"
+            android:label="@string/title_activity_game_continuity" >
+        </activity>
     </application>
 
 </manifest>

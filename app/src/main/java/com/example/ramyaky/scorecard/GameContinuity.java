@@ -1,6 +1,5 @@
 package com.example.ramyaky.scorecard;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,32 +9,29 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class startupScreen extends ActionBarActivity {
+public class GameContinuity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_startup_screen);
+        setContentView(R.layout.activity_game_continuity);
 
-        final Context context = this;
+        if (savedInstanceState == null) {
 
-        Button newGameButton = (Button) findViewById(R.id.newGame);
-        Button historyButton = (Button) findViewById(R.id.history);
+            DetailsFragment fragment = new DetailsFragment();
+            fragment.setArguments(getIntent().getExtras());
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frame1, fragment)
+                    .commit();
+        }
 
-        newGameButton.setOnClickListener(new View.OnClickListener() {
+        Button resumeButton = (Button) findViewById(R.id.resumeButton);
+        resumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(context, newGame.class);
-                startActivity(intent1);
-            }
-        });
-
-        historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, gameHistory.class);
+                Intent intent = new Intent(getApplicationContext(), CurrentGameScorecard.class);
+                intent.putExtra("GameObject", getIntent().getExtras().getParcelable("GameObject"));
                 startActivity(intent);
-
             }
         });
     }
@@ -44,7 +40,7 @@ public class startupScreen extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_startup_screen, menu);
+        getMenuInflater().inflate(R.menu.menu_game_continuity, menu);
         return true;
     }
 

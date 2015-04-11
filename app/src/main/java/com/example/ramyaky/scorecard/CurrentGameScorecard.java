@@ -191,6 +191,8 @@ public class CurrentGameScorecard extends ActionBarActivity {
                             }
                         }
 
+                        System.out.println("My winners list : " +winners);
+
                         for(int i=0; i<players.size(); i++) {
                             images[i].setImageBitmap(null);
                         }
@@ -221,6 +223,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
     public int findHighest(String type, JSONObject total, ArrayList<String> players) {
         int value = 0;
+        System.out.println("Printing my mode value : " + type);
         try {
         value = Integer.parseInt(total.get(players.get(0)).toString());
 
@@ -233,6 +236,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 }
             }else {
                 for (int i = 1; i < players.size(); i++) {
+                    System.out.println("Inside MIN");
                     if (value > Integer.parseInt(total.get(players.get(i)).toString())) {
                         value = Integer.parseInt(total.get(players.get(i)).toString());
                     }

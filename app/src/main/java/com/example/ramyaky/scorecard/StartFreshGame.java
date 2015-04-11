@@ -85,6 +85,7 @@ public class StartFreshGame extends ActionBarActivity {
         });
 
         Button doneButton = (Button) findViewById(R.id.done);
+
         doneButton.setOnClickListener(initiateScorecard(names, winMode,etGameName));
 
     }

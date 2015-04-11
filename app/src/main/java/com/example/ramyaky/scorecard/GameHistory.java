@@ -1,6 +1,7 @@
 package com.example.ramyaky.scorecard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,6 +37,12 @@ public class GameHistory extends ActionBarActivity {
 
                 GameObject object = gameRecordListAdapter.getGameHistoryObject(position);
                 //Toast.makeText(getApplicationContext(), object.getGameName(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), GameContinuity.class);
+                intent.putExtra("gameName", object.getGameName());
+                intent.putExtra("startTime", object.getGameStartTime());
+                intent.putExtra("round", object.getGameScores().size());
+                intent.putExtra("GameObject", object);
+                startActivity(intent);
 
             }
         });

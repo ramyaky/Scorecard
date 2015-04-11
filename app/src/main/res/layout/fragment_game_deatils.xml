@@ -7,6 +7,12 @@
     android:background="@drawable/greybg"
     tools:context="com.example.ramyaky.scorecard.GameDetails$PlaceholderFragment">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,24 +23,25 @@
         android:layout_centerHorizontal="true" />
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scrollbars="horizontal|vertical"
         android:layout_marginTop="25dp"
         android:id="@+id/detailsScrollView"
         android:scrollbarStyle="outsideInset"
-        android:layout_below="@+id/textView8">
+        android:fadeScrollbars="false"
+        android:scrollbarFadeDuration="20">
 
         <HorizontalScrollView
             android:id="@+id/horizontalView"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:scrollbars="horizontal|vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_marginTop="5dip">
 
     <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/mystring"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -46,6 +53,6 @@
         </HorizontalScrollView>
 
 </ScrollView>
-
+    </LinearLayout>
 
 </RelativeLayout>
