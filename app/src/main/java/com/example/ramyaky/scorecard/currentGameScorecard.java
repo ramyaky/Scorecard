@@ -73,6 +73,7 @@ public class currentGameScorecard extends ActionBarActivity {
                 currentValueList[i] = new EditText(getApplicationContext());
                 playersTotalValues[i] = new Button(getApplicationContext());
                 playersPreviousValues[i] = new TextView(getApplicationContext());
+                winnerImages[i] = new ImageView(getApplicationContext());
 
                 playersList[i].setText(namesList.get(i));
                 playersList[i].setTextSize(20);
@@ -106,6 +107,7 @@ public class currentGameScorecard extends ActionBarActivity {
 
                 playersTotalValues[i].setBackgroundColor(android.R.drawable.btn_default);
 
+                tr.addView(winnerImages[i]);
                 tr.addView(playersList[i]);
                 tr.addView(currentValueList[i]);
                 tr.addView(playersPreviousValues[i]);
@@ -185,14 +187,22 @@ public class currentGameScorecard extends ActionBarActivity {
                         for(String p : players){
                             if( Integer.parseInt(tmpObjTotal.get(p).toString()) == winnerValue ) {
                                 winners.add(p);
+                            }else {
+                                winners.add("0");
                             }
                         }
 
-                        /*for ( int i=0; i<winners.size(); i++) {
-                            if(winners.get(i) == 1) {
+                        for(int i=0; i<players.size(); i++) {
+                            images[i].setImageBitmap(null);
+                        }
+
+                        for ( int i=0; i<winners.size(); i++) {
+
+                            if(! winners.get(i).equals("0")) {
                                 images[i].setImageResource(R.drawable.crown);
                             }
-                        } */
+                        }
+
                         tmpScores.add(tmpObj.toString());
                         totalScores.add(tmpObjTotal.toString());
                         gameParcelableObject.setGameScores(tmpScores);
