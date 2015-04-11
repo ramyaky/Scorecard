@@ -1,7 +1,5 @@
 package com.example.ramyaky.scorecard;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -30,7 +28,7 @@ public class DetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_game_deatils, container, false);
 
         SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getActivity());
-        gameObject detailsObject = dbObj.getGameRecord(getArguments().getString("startTime"), getArguments().getString("gameName"));
+        GameObject detailsObject = dbObj.getGameRecord(getArguments().getString("startTime"), getArguments().getString("gameName"));
         TextView tv = (TextView) rootView.findViewById(R.id.gameHeading);
 
         tv.setText("Full Scorecard for " + detailsObject.getGameName());

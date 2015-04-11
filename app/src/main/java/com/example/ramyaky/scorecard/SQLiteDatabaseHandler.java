@@ -6,11 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.StringTokenizer;
 
 /**
  * Created by ramyaky on 4/1/15.
@@ -96,7 +92,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void addRecord(String date, gameObject details, String winner){
+    public void addRecord(String date, GameObject details, String winner){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -119,7 +115,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void updateGameScoreRecord(String date, gameObject details, String winner){
+    public void updateGameScoreRecord(String date, GameObject details, String winner){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -135,10 +131,10 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<gameObject> getAllRecords(){
+    public ArrayList<GameObject> getAllRecords(){
         SQLiteDatabase db = this.getWritableDatabase();
-        //ArrayList<JSONObject> listOfJsonObjects = new ArrayList<JSONObject>();
-        ArrayList<gameObject> listOfObjects = new ArrayList<gameObject>();
+
+        ArrayList<GameObject> listOfObjects = new ArrayList<GameObject>();
 
         String QUERY = "SELECT * FROM " + TABLE_NAME;
         Cursor cursor = db.rawQuery(QUERY,null);
@@ -146,7 +142,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         try{
             if(cursor.moveToFirst()) {
                 while(!cursor.isAfterLast()) {
-                    //gameObject object = new gameObject();
+
                     listOfObjects.add(setObjectAttributes(cursor));
                     cursor.moveToNext();
                 }
@@ -158,9 +154,9 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         return listOfObjects;
     }
 
-    public gameObject getGameRecord(String gStartTime, String gName){
+    public GameObject getGameRecord(String gStartTime, String gName){
         SQLiteDatabase db = this.getWritableDatabase();
-        gameObject gameRecordDetails = new gameObject();
+        GameObject gameRecordDetails = new GameObject();
 
         String QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_GAME_START_TIME + " = \"" + gStartTime + "\"" + " AND " + KEY_GAME_NAME + " = \"" + gName + "\"";
         Cursor cursor = db.rawQuery(QUERY,null);
@@ -178,12 +174,12 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return gameRecordDetails;
-        //return iterateRows(cursor);
+
     }
 
-    public gameObject setObjectAttributes(Cursor cur){
+    public GameObject setObjectAttributes(Cursor cur){
 
-        gameObject object = new gameObject();
+        GameObject object = new GameObject();
         try{
             object.setGameStartTime(cur.getString(0));
             object.setGameName(cur.getString(1));
