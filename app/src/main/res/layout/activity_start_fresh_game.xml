@@ -22,7 +22,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:hint="Enter Game Name"
         android:ems="10"
         android:id="@+id/etGameName"
@@ -71,7 +71,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:hint="Enter Player Name"
         android:ems="10"
         android:maxLength="12"
@@ -125,7 +125,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        ></Button>
+        >
+
+        </Button>
 
     <LinearLayout
         android:orientation="vertical"
@@ -136,7 +138,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:id="@+id/linear_layout_for_done_button"></LinearLayout>
+        android:id="@+id/linear_layout_for_done_button">
+
+        </LinearLayout>
 
 
 </RelativeLayout>

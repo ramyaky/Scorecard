@@ -83,7 +83,6 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             arrayString = arrayString + t + separator;
 
         }
-        System.out.println("Printing arrayToString one : " +arrayString);
         return arrayString;
     }
 
@@ -93,13 +92,12 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         for(String t : splitString){
             stringToArray.add(t);
         }
-        System.out.println("Printing stringToArray one : " + stringToArray);
         return stringToArray;
     }
 
 
     public void addRecord(String date, gameObject details, String winner){
-        System.out.println("Adding record");
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -122,7 +120,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void updateGameScoreRecord(String date, gameObject details, String winner){
-        System.out.println("Updating Record");
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -137,37 +135,27 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<JSONObject> getAllRecords(){
+    public ArrayList<gameObject> getAllRecords(){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<JSONObject> listOfJsonObjects = new ArrayList<JSONObject>();
+        //ArrayList<JSONObject> listOfJsonObjects = new ArrayList<JSONObject>();
+        ArrayList<gameObject> listOfObjects = new ArrayList<gameObject>();
 
-        String QUERY = "SELECT " + KEY_GAME_START_TIME + "," + KEY_GAME_NAME + "," + KEY_GAME_WINNER + "," + KEY_GAME_TOTAL_SCORES + "," + KEY_GAME_SCORES + " FROM " + TABLE_NAME;
+        String QUERY = "SELECT * FROM " + TABLE_NAME;
         Cursor cursor = db.rawQuery(QUERY,null);
 
-        System.out.println("Total no.of rows in DB : " +cursor.getCount());
-
-        try {
-            if (cursor.moveToFirst()) {
-                //System.out.println("Has elements");
-                while (!cursor.isAfterLast()) {
-                    //System.out.println("Creating object");
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("time", cursor.getString(0));
-                    jsonObject.put("name", cursor.getString(1));
-                    jsonObject.put("winner", cursor.getString(2));
-                    jsonObject.put("total",cursor.getString(3));
-                    jsonObject.put("scores", cursor.getString(4));
-                    listOfJsonObjects.add(jsonObject);
+        try{
+            if(cursor.moveToFirst()) {
+                while(!cursor.isAfterLast()) {
+                    //gameObject object = new gameObject();
+                    listOfObjects.add(setObjectAttributes(cursor));
                     cursor.moveToNext();
                 }
             }
-        }catch(Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
         }
 
-        cursor.close();
-        System.out.println("Sending ietms : " + listOfJsonObjects);
-        return listOfJsonObjects;
+        return listOfObjects;
     }
 
     public gameObject getGameRecord(String gStartTime, String gName){
@@ -177,21 +165,12 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         String QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_GAME_START_TIME + " = \"" + gStartTime + "\"" + " AND " + KEY_GAME_NAME + " = \"" + gName + "\"";
         Cursor cursor = db.rawQuery(QUERY,null);
 
-        System.out.println("Total no.of rows satisfying condition : " +cursor.getCount());
-
         try{
             if(cursor.moveToFirst())
             {
                 while(!cursor.isAfterLast()){
-                    System.out.println("In loop");
-                    gameRecordDetails.setGameStartTime(cursor.getString(0));
-                    gameRecordDetails.setGameName(cursor.getString(1));
-                    gameRecordDetails.setGameType(cursor.getString(3));
-                    gameRecordDetails.setGameEndTime(cursor.getString(4));
-                    gameRecordDetails.setGamePlayers(stringToArray(cursor.getString(5)));
-                    gameRecordDetails.setGameScores(stringToArray(cursor.getString(6)));
-                    gameRecordDetails.setGameIsEnd(Boolean.valueOf(cursor.getString(7)));
-                    gameRecordDetails.setGameTotalScores(stringToArray(cursor.getString(8)));
+
+                    gameRecordDetails = setObjectAttributes(cursor);
                     cursor.moveToNext();
                 }
             }
@@ -199,5 +178,24 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return gameRecordDetails;
+        //return iterateRows(cursor);
+    }
+
+    public gameObject setObjectAttributes(Cursor cur){
+
+        gameObject object = new gameObject();
+        try{
+            object.setGameStartTime(cur.getString(0));
+            object.setGameName(cur.getString(1));
+            object.setGameType(cur.getString(3));
+            object.setGameEndTime(cur.getString(4));
+            object.setGamePlayers(stringToArray(cur.getString(5)));
+            object.setGameScores(stringToArray(cur.getString(6)));
+            object.setGameIsEnd(Boolean.valueOf(cur.getString(7)));
+            object.setGameTotalScores(stringToArray(cur.getString(8)));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return object;
     }
 }

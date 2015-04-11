@@ -6,5 +6,9 @@
 
     </style>
 
+    <style name="boldText">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 
 </resources>

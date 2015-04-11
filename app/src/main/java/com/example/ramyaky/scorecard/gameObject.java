@@ -25,6 +25,7 @@ public class gameObject implements Parcelable{
     ArrayList<String> _gamePlayers;
     ArrayList<String> _gameScores;
     ArrayList<String> _gameTotalScores;
+    ArrayList<String> _gameWinners;
 
 
 

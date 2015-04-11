@@ -8,9 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -29,15 +31,28 @@ public class gameHistory extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_history);
 
-        scoreCardAdapter gameRecordListAdapter = new scoreCardAdapter();
+        final scoreCardAdapter gameRecordListAdapter = new scoreCardAdapter();
         ListView gameHistoryListView = (ListView) findViewById(R.id.listView);
         gameHistoryListView.setAdapter(gameRecordListAdapter);
+        gameHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                gameObject object = gameRecordListAdapter.getGameHistoryObject(position);
+                Toast.makeText(getApplicationContext(), object.getGameName(), Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
     public class scoreCardAdapter extends BaseAdapter{
 
-        ArrayList<JSONObject> gameRecordslist = getDataforListViews();
+        ArrayList<gameObject> gameRecordslist = getDataforListViews();
+
+        public gameObject getGameHistoryObject(int position){
+            return gameRecordslist.get(position);
+        }
+
 
         @Override
         public int getCount() {
@@ -67,13 +82,13 @@ public class gameHistory extends ActionBarActivity {
                 TextView name = (TextView)convertView.findViewById(R.id.gameName);
                 TextView time = (TextView)convertView.findViewById(R.id.gameStartTime);
 
-                JSONObject gameRecord = gameRecordslist.get(position);
+                gameObject gameRecord = gameRecordslist.get(position);
 
                 //String timeString = gameRecord.getString("time");
-                String simpleTimeString = getSimpleTimeString(gameRecord.getString("time"));
+                String simpleTimeString = getSimpleTimeString(gameRecord.getGameStartTime());
 
                 time.setText(simpleTimeString);
-                name.setText(gameRecord.getString("name"));
+                name.setText(gameRecord.getGameName());
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -114,11 +129,11 @@ public class gameHistory extends ActionBarActivity {
         return timeString;
     }
 
-    public ArrayList<JSONObject> getDataforListViews(){
+    public ArrayList<gameObject> getDataforListViews(){
 
         SQLiteDatabaseHandler dbobj = new SQLiteDatabaseHandler(getApplicationContext());
-        ArrayList<JSONObject> items = dbobj.getAllRecords();
-        System.out.println("Rows : " + items);
+        ArrayList<gameObject> items = dbobj.getAllRecords();
+
         return items;
 
     }

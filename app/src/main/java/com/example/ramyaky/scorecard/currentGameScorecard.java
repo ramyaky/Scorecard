@@ -1,7 +1,5 @@
 package com.example.ramyaky.scorecard;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -13,17 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class currentGameScorecard extends ActionBarActivity {
 
@@ -31,7 +26,7 @@ public class currentGameScorecard extends ActionBarActivity {
     public EditText[] currentValueList;
     public Button[] playersTotalValues;
     public TextView[] playersPreviousValues;
-    //public JSONObject gameJsonObject;
+    public ImageView[] winnerImages;
     public gameObject gameParcelableObject;
 
     @Override
@@ -56,12 +51,15 @@ public class currentGameScorecard extends ActionBarActivity {
             String gameName = gameParcelableObject.getGameName();
             ArrayList<String> namesList = gameParcelableObject.getGamePlayers();
             final ArrayList<String> scoresList = gameParcelableObject.getGameScores();
+            ArrayList<String> totalScoresList = gameParcelableObject.getGameTotalScores();
+
             noOfPlayers = namesList.size();
 
             playersList = new TextView[noOfPlayers];
             currentValueList = new EditText[noOfPlayers];
             playersTotalValues = new Button[noOfPlayers];
             playersPreviousValues = new TextView[noOfPlayers];
+            winnerImages = new ImageView[noOfPlayers];
 
             tvHeading.setText("Scorecard for " + gameName.toUpperCase());
             tvRound.setText("Round " + scoresList.size());
@@ -96,11 +94,13 @@ public class currentGameScorecard extends ActionBarActivity {
                     }
                 });
 
-                playersPreviousValues[i].setText("0");
+                JSONObject scoreObj = new JSONObject(scoresList.get((scoresList.size() -1)));
+                playersPreviousValues[i].setText("" + scoreObj.get(namesList.get(i)));
                 playersPreviousValues[i].setTextSize(20);
                 playersPreviousValues[i].setTextColor(Color.BLACK);
 
-                playersTotalValues[i].setText("0");
+                JSONObject totalObj = new JSONObject(totalScoresList.get(0));
+                playersTotalValues[i].setText("" + totalObj.get(namesList.get(i)));
                 playersTotalValues[i].setTextSize(20);
                 playersTotalValues[i].setTextColor(Color.BLACK);
 
@@ -115,7 +115,7 @@ public class currentGameScorecard extends ActionBarActivity {
 
             }
 
-            doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, playersList, currentValueList, playersPreviousValues, playersTotalValues));
+            doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, namesList, gameParcelableObject.getGameType(), playersList, currentValueList, playersPreviousValues, playersTotalValues, winnerImages));
             viewDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,6 +127,15 @@ public class currentGameScorecard extends ActionBarActivity {
                 }
             });
 
+            /*viewDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), currentGameScorecard.class);
+                    intent.putExtra("GameObject", gameParcelableObject);
+                    startActivity(intent);
+                }
+            });*/
+
         }catch( Exception e){
             System.out.println(e);
             e.printStackTrace();
@@ -135,7 +144,7 @@ public class currentGameScorecard extends ActionBarActivity {
 
 
 
-    public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues ) {
+    public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final ArrayList<String> players, final String mode, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues, final ImageView[] images) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,6 +179,20 @@ public class currentGameScorecard extends ActionBarActivity {
                             currentValues[i].setText("");
                         }
 
+                        int winnerValue = findHighest(mode,tmpObjTotal, players);
+                        ArrayList<String> winners = new ArrayList<String>();
+
+                        for(String p : players){
+                            if( Integer.parseInt(tmpObjTotal.get(p).toString()) == winnerValue ) {
+                                winners.add(p);
+                            }
+                        }
+
+                        /*for ( int i=0; i<winners.size(); i++) {
+                            if(winners.get(i) == 1) {
+                                images[i].setImageResource(R.drawable.crown);
+                            }
+                        } */
                         tmpScores.add(tmpObj.toString());
                         totalScores.add(tmpObjTotal.toString());
                         gameParcelableObject.setGameScores(tmpScores);
@@ -187,20 +210,46 @@ public class currentGameScorecard extends ActionBarActivity {
         };
     }
 
+    public int findHighest(String type, JSONObject total, ArrayList<String> players) {
+        int value = 0;
+        try {
+        value = Integer.parseInt(total.get(players.get(0)).toString());
+
+            if(type.equals("Max")) {
+                for (int i = 1; i < players.size(); i++) {
+
+                    if ( value < Integer.parseInt(total.get(players.get(i)).toString())) {
+                        value = Integer.parseInt(total.get(players.get(i)).toString());
+                    }
+                }
+            }else {
+                for (int i = 1; i < players.size(); i++) {
+                    if (value > Integer.parseInt(total.get(players.get(i)).toString())) {
+                        value = Integer.parseInt(total.get(players.get(i)).toString());
+                    }
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+
+    }
+
     public void updateDatabase(gameObject myObj){
         try{
-            //System.out.println("Creating database handler");
+
             SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
 
             String dateString = myObj.getGameStartTime();
 
             if(dbObj.checkRecordExists(dateString)) {
-                //System.out.println("Updating the existing Record");
+
                 dbObj.updateGameScoreRecord(dateString, myObj, "none");
             }else {
                 dbObj.addRecord(dateString, myObj, "none");
             }
-            dbObj.getAllRecords();
 
         }catch(Exception e){
             e.printStackTrace();
