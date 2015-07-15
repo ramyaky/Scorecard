@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="com.example.ramyaky.scorecard.GameDetails" tools:ignore="MergeRootFrame"
-    android:background="@drawable/greybg">
+    >
 
 
     <FrameLayout
@@ -12,16 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/frame1">
-        
-        </FrameLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@id/frame1"
-        >
+        </FrameLayout>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -29,9 +21,9 @@
         android:layout_height="wrap_content"
         android:text="Resume Game"
         android:id="@+id/resumeButton"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/frame1"
+        android:layout_alignParentBottom="true"/>
 
-         />
-
-    </LinearLayout>
 
 </RelativeLayout>

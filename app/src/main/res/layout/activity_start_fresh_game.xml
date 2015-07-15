@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/greybg"
+
     android:layout_gravity="center"
     tools:context="com.example.ramyaky.scorecard.StartFreshGame"
     >
@@ -31,11 +31,13 @@
         android:layout_height="wrap_content"
         android:inputType="textCapSentences"
         android:hint="Enter Game Name"
+        android:textCursorDrawable="@drawable/light_grey"
         android:ems="10"
         android:id="@+id/etGameName"
         android:layout_alignTop="@+id/tvGameName"
         android:layout_toRightOf="@+id/tvWinMode"
-        android:layout_toEndOf="@+id/tvWinMode" />
+        android:layout_toEndOf="@+id/tvWinMode"
+         />
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,7 +73,7 @@
             android:layout_height="wrap_content"
             android:text="Min"
             android:id="@+id/Min"
-            android:checked="false" />
+             />
 
     </RadioGroup>
 
@@ -94,8 +96,8 @@
         android:text="ADD"
         android:id="@+id/addPlayerButton"
         android:layout_alignBottom="@+id/etPlayerName"
-        android:layout_toRightOf="@+id/radioGroup"
-        android:layout_toEndOf="@+id/radioGroup" />
+        android:layout_toRightOf="@+id/etPlayerName"
+         />
 
     </RelativeLayout>
 

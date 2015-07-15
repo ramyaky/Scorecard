@@ -1,10 +1,12 @@
 package com.example.ramyaky.scorecard;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
     public TextView[] playersPreviousValues;
     public ImageView[] winnerImages;
     public GameObject gameParcelableObject;
+    int gameLimitValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
         Bundle b = getIntent().getExtras();
         int noOfPlayers = 0;
 
+        gameLimitValue = b.getInt("Limit");
         gameParcelableObject = b.getParcelable("GameObject");
 
         try {
@@ -59,6 +64,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
             playersTotalValues = new Button[noOfPlayers];
             playersPreviousValues = new TextView[noOfPlayers];
             winnerImages = new ImageView[noOfPlayers];
+
 
             tvHeading.setText("Scorecard for " + gameName.toUpperCase());
             tvRound.setText("Round " + scoresList.size());
@@ -83,11 +89,12 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 //currentValueList[i].setText("0");
                 currentValueList[i].setTextColor(Color.BLACK);
                 currentValueList[i].setSelectAllOnFocus(true);
+                currentValueList[i].setGravity(Gravity.LEFT);
 
                 currentValueList[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
-                        if(hasFocus) {
+                        if (hasFocus) {
                             EditText tmp = (EditText) v;
                             tmp.setSelection(0, tmp.getText().length());
                         }
@@ -98,11 +105,13 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 playersPreviousValues[i].setText("" + scoreObj.get(namesList.get(i)));
                 playersPreviousValues[i].setTextSize(20);
                 playersPreviousValues[i].setTextColor(Color.BLACK);
+                playersPreviousValues[i].setGravity(Gravity.CENTER);
 
                 JSONObject totalObj = new JSONObject(totalScoresList.get(0));
                 playersTotalValues[i].setText("" + totalObj.get(namesList.get(i)));
                 playersTotalValues[i].setTextSize(20);
                 playersTotalValues[i].setTextColor(Color.BLACK);
+                playersTotalValues[i].setGravity(Gravity.CENTER);
 
                 playersTotalValues[i].setBackgroundColor(android.R.drawable.btn_default);
 
@@ -111,8 +120,10 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 tr.addView(currentValueList[i]);
                 tr.addView(playersPreviousValues[i]);
                 tr.addView(playersTotalValues[i]);
-
+                tr.setBackgroundResource(android.R.color.transparent);
+                tr.setVerticalGravity(Gravity.CENTER_VERTICAL);
                 scoreTable.addView(tr);
+
 
             }
 
@@ -127,15 +138,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
                     startActivity(intent);
                 }
             });
-
-            /*viewDetails.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), CurrentGameScorecard.class);
-                    intent.putExtra("GameObject", gameParcelableObject);
-                    startActivity(intent);
-                }
-            });*/
 
         }catch( Exception e){
             System.out.println(e);
@@ -153,14 +155,22 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
                 for(int i=0; i<noOfPlayers; i++) {
                     if(currentValues[i].getText().toString().length() == 0) {
-                        currentValues[i].setError("Value required");
-                        allGood = false;
-                        break;
+                        if(Integer.parseInt(totalValues[i].getText().toString()) < gameLimitValue) {
+                            currentValues[i].setError("Value required");
+                            allGood = false;
+                            System.out.println("here at 1");
+                        }else {
+                            allGood = true;
+                        }
+
+
                     }
                     else{
                         allGood = true;
+                        System.out.println("here at 2");
                     }
                 }
+                System.out.println("printing all good status : " + allGood);
                 if(allGood) {
                     try {
 
@@ -184,8 +194,10 @@ public class CurrentGameScorecard extends ActionBarActivity {
                         ArrayList<String> winners = new ArrayList<String>();
 
                         for(String p : players){
-                            if( Integer.parseInt(tmpObjTotal.get(p).toString()) == winnerValue ) {
+                            if( (Integer.parseInt(tmpObjTotal.get(p).toString()) == winnerValue) ) {
                                 winners.add(p);
+                            }else if( Integer.parseInt(tmpObjTotal.get(p).toString()) >= gameLimitValue) {
+                                winners.add(Integer.toString(gameLimitValue));
                             }else {
                                 winners.add("0");
                             }
@@ -199,8 +211,15 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
                         for ( int i=0; i<winners.size(); i++) {
 
-                            if(! winners.get(i).equals("0")) {
-                                images[i].setImageResource(R.drawable.crown);
+                            if((! winners.get(i).equals("0")) && (! winners.get(i).equals(Integer.toString(gameLimitValue)))) {
+                                images[i].setImageResource(R.drawable.crown4);
+                            }else if(winners.get(i).equals(Integer.toString(gameLimitValue))) {
+                                currentValues[i].setFocusable(false);
+                                currentValues[i].setBackgroundColor(Color.rgb(255, 230, 230));
+                                previousValues[i].setTextColor(Color.RED);
+                                totalValues[i].setTextColor(Color.RED);
+                                playersList[i].setTextColor(Color.RED);
+                                currentValues[i].setText("0");
                             }
                         }
 
@@ -226,6 +245,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
         System.out.println("Printing my mode value : " + type);
         try {
         value = Integer.parseInt(total.get(players.get(0)).toString());
+
 
             if(type.equals("Max")) {
                 for (int i = 1; i < players.size(); i++) {

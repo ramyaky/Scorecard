@@ -25,7 +25,6 @@ public class GameObject implements Parcelable{
     ArrayList<String> _gameWinners;
 
 
-
     public GameObject() {
 
     }
@@ -40,6 +39,7 @@ public class GameObject implements Parcelable{
         this._gamePlayers = gPlayers;
         this._gameScores = gScores;
         this._gameTotalScores = gTotalScores;
+
     }
 
     /* All get methods */

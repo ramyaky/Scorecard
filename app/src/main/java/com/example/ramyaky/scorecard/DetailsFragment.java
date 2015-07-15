@@ -32,7 +32,7 @@ public class DetailsFragment extends Fragment {
         TextView tv = (TextView) rootView.findViewById(R.id.gameHeading);
 
         tv.setText("Full Scorecard for " + detailsObject.getGameName());
-
+        tv.setGravity(Gravity.CENTER_HORIZONTAL);
         TableLayout.LayoutParams tableRowParams=
                 new TableLayout.LayoutParams
                         (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
@@ -91,7 +91,9 @@ public class DetailsFragment extends Fragment {
 
                     scoreTextViews[j].setText("" + scoreObject.getString(playersList.get(j)));
                     scoreTextViews[j].setPadding(20,20,20,20);
+                    scoreTextViews[j].setTextAppearance(getActivity(), R.style.playerScoreText);
                     tr.addView(scoreTextViews[j]);
+
                 }
                 detailsTable.addView(tr);
             }

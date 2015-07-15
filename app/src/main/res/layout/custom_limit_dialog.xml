@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"  android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Maximum Score : "
+        android:id="@+id/limitLabel"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:id="@+id/limitValue"
+        android:layout_gravity="right"
+        android:ems="20"
+        android:layout_toRightOf="@+id/limitLabel"
+        android:layout_alignBottom="@+id/limitLabel" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/limitButton"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/limitLabel"
+         android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

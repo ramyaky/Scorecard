@@ -1,19 +1,27 @@
 package com.example.ramyaky.scorecard;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,19 +30,22 @@ import java.util.Date;
 
 public class GameHistory extends ActionBarActivity {
 
+    ListView gameHistoryListView;
+    scoreCardAdapter gameRecordListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_history);
 
-        final scoreCardAdapter gameRecordListAdapter = new scoreCardAdapter();
-        ListView gameHistoryListView = (ListView) findViewById(R.id.listView);
+        gameRecordListAdapter = new scoreCardAdapter();
+        gameHistoryListView = (ListView) findViewById(R.id.listView);
         gameHistoryListView.setAdapter(gameRecordListAdapter);
         gameHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                //view.setSelected(true);
                 GameObject object = gameRecordListAdapter.getGameHistoryObject(position);
                 //Toast.makeText(getApplicationContext(), object.getGameName(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), GameContinuity.class);
@@ -47,16 +58,119 @@ public class GameHistory extends ActionBarActivity {
             }
         });
 
+        gameHistoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                gameHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+                gameHistoryListView.setItemChecked(position, true);
+                //gameRecordListAdapter.updateSelectionArray(position, true);
+                return true;
+            }
+        });
+
+
+
+        gameHistoryListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+                gameRecordListAdapter.updateSelectionArray(position, checked);
+                int checkedItemsCount = gameRecordListAdapter.getSelectedIdsCount();
+
+                switch (checkedItemsCount) {
+                    case 1:
+                        mode.setSubtitle("1 item selected");
+                        break;
+                    default:
+                        mode.setSubtitle("" + checkedItemsCount + " items selected");
+                        break;
+                }
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                mode.getMenuInflater().inflate(R.menu.delete_multiple_games, menu);
+                mode.setTitle("Select items");
+
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
+                Menu menu = mode.getMenu();
+                switch (item.getItemId()) {
+                    case R.id.selectAll:
+                        /*gameRecordListAdapter.removeSelection();
+                        for(int k=0; k<gameRecordListAdapter.getCount(); k++) {
+                            gameHistoryListView.setItemChecked(k, true);
+                            gameRecordListAdapter.updateSelectionArray(k, true);
+                        }*/
+                        markSelectionAllItems();
+                        mode.setSubtitle("" + gameRecordListAdapter.getSelectedIdsCount() + " items selected");
+
+                        menu.findItem(R.id.selectAll).setVisible(false);
+                        menu.findItem(R.id.deselectAll).setVisible(true);
+
+                        return true;
+
+                    case R.id.deselectAll:
+                        gameRecordListAdapter.removeSelection();
+                        menu.findItem(R.id.deselectAll).setVisible(false);
+                        menu.findItem(R.id.selectAll).setVisible(true);
+                        mode.setSubtitle("" + gameRecordListAdapter.getSelectedIdsCount() + " items selected");
+                        return true;
+
+                    case R.id.delete:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GameHistory.this);
+                        builder.setMessage("Do you want to delete selected items ?");
+
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteActionMode();
+                                mode.finish();
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.setTitle("Confirmation");
+                        alertDialog.show();
+
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                gameRecordListAdapter.removeSelection();
+            }
+        });
+
     }
 
     public class scoreCardAdapter extends BaseAdapter{
 
         ArrayList<GameObject> gameRecordslist = getDataforListViews();
+        private SparseBooleanArray selectedItemsArray = new SparseBooleanArray();
 
         public GameObject getGameHistoryObject(int position){
             return gameRecordslist.get(position);
         }
-
 
         @Override
         public int getCount() {
@@ -64,13 +178,51 @@ public class GameHistory extends ActionBarActivity {
         }
 
         @Override
-        public Object getItem(int position) {
+        public GameObject getItem(int position) {
             return gameRecordslist.get(position);
         }
 
         @Override
         public long getItemId(int position) {
             return position;
+        }
+
+
+        public void updateSelectionArray(int position, boolean value) {
+            if(value) {
+                selectedItemsArray.put(position,value);
+
+            }else {
+                gameHistoryListView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                selectedItemsArray.delete(position);
+            }
+
+            notifyDataSetChanged();
+
+        }
+
+        public void remove(GameObject object) {
+            SQLiteDatabaseHandler dbobj = new SQLiteDatabaseHandler(getApplicationContext());
+            dbobj.deleteRecord(object.getGameStartTime(), object.getGameName());
+        }
+
+        public SparseBooleanArray getSelectedIds() {
+            return selectedItemsArray;
+        }
+
+        public void refreshDataSet() {
+            gameRecordslist = getDataforListViews();
+            notifyDataSetChanged();
+        }
+
+        public int getSelectedIdsCount() {
+            return selectedItemsArray.size();
+        }
+
+        // Remove selection after unchecked
+        public void  removeSelection() {
+            selectedItemsArray = new  SparseBooleanArray();
+            notifyDataSetChanged();
         }
 
         @Override
@@ -82,13 +234,20 @@ public class GameHistory extends ActionBarActivity {
                     LayoutInflater layoutInflater = (LayoutInflater) GameHistory.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     convertView = layoutInflater.inflate(R.layout.game_record, parent, false);
                 }
+                // setting the background color trasnparent.
+                // This will be helpful when user deselect the item incase of selecting multiple items
 
+                convertView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+                // highlights item(s) upon selection
+                if(selectedItemsArray.get(position)){
+                    convertView.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                }
                 TextView name = (TextView)convertView.findViewById(R.id.gameName);
                 TextView time = (TextView)convertView.findViewById(R.id.gameStartTime);
 
                 GameObject gameRecord = gameRecordslist.get(position);
 
-                //String timeString = gameRecord.getString("time");
                 String simpleTimeString = getSimpleTimeString(gameRecord.getGameStartTime());
 
                 time.setText(simpleTimeString);
@@ -103,6 +262,29 @@ public class GameHistory extends ActionBarActivity {
         }
     }
 
+    public void markSelectionAllItems() {
+        gameRecordListAdapter.removeSelection();
+        for(int k=0; k<gameRecordListAdapter.getCount(); k++) {
+            gameHistoryListView.setItemChecked(k, true);
+            gameRecordListAdapter.updateSelectionArray(k, true);
+        }
+
+    }
+
+    public void deleteActionMode() {
+
+        SparseBooleanArray itemsToDelete = gameRecordListAdapter.getSelectedIds();
+        for(int k=0; k< itemsToDelete.size(); k++) {
+            if(itemsToDelete.valueAt(k)) {
+                gameRecordListAdapter.remove(gameRecordListAdapter.getItem(itemsToDelete.keyAt(k)));
+            }
+        }
+        Toast.makeText(getApplicationContext(), "Successfully deleted selected items", Toast.LENGTH_SHORT).show();
+        gameRecordListAdapter.refreshDataSet();
+
+        itemsToDelete.clear();
+
+    }
     public String getSimpleTimeString(String tsString){
         String timeString = "";
 
@@ -137,7 +319,6 @@ public class GameHistory extends ActionBarActivity {
 
         SQLiteDatabaseHandler dbobj = new SQLiteDatabaseHandler(getApplicationContext());
         ArrayList<GameObject> items = dbobj.getAllRecords();
-
         return items;
 
     }
@@ -154,6 +335,14 @@ public class GameHistory extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        switch (item.getItemId()) {
+            case R.id.clearHistory:
+                markSelectionAllItems();
+                System.out.println("Selected all  : " + gameRecordListAdapter.getSelectedIdsCount() + " items");
+                deleteActionMode();
+                return true;
+        }
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -163,4 +352,7 @@ public class GameHistory extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

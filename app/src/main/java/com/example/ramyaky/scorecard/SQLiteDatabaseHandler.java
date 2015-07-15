@@ -91,6 +91,14 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         return stringToArray;
     }
 
+    public void deleteRecord(String date, String gn) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        System.out.println("Calling delete on : " + gn);
+        db.delete(TABLE_NAME, KEY_GAME_START_TIME + "=\"" + date +"\" AND " + KEY_GAME_NAME + "=\"" + gn + "\"",null);
+        db.close();
+
+    }
 
     public void addRecord(String date, GameObject details, String winner){
 
@@ -111,9 +119,6 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteRecord(String date, String details){
-
-    }
 
     public void updateGameScoreRecord(String date, GameObject details, String winner){
 
