@@ -27,6 +27,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     String KEY_GAME_SCORES = "gameScores";
     String KEY_GAME_IS_END = "gameIsEnd";
     String KEY_GAME_TOTAL_SCORES = "gameTotalScores";
+    String KEY_GAME_MAX_LIMIT = "gameMaxLimit";
     String separator = " @&@ ";
 
     public SQLiteDatabaseHandler(Context context) {
@@ -39,7 +40,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         String CREATE_SCORECARD_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_GAME_START_TIME + " TEXT PRIMARY KEY," + KEY_GAME_NAME + " TEXT,"
                 + KEY_GAME_WINNER + " TEXT, " + KEY_GAME_TYPE + " TEXT, " + KEY_GAME_END_TIME + " TEXT, "
-                + KEY_GAME_PLAYERS + " TEXT, " + KEY_GAME_SCORES + " TEXT, " + KEY_GAME_IS_END + " TEXT, " + KEY_GAME_TOTAL_SCORES + " TEXT" + ")";
+                + KEY_GAME_PLAYERS + " TEXT, " + KEY_GAME_SCORES + " TEXT, " + KEY_GAME_IS_END + " TEXT, " + KEY_GAME_TOTAL_SCORES + " TEXT, " + KEY_GAME_MAX_LIMIT + " TEXT" + ")";
         db.execSQL(CREATE_SCORECARD_TABLE);
         System.out.println("Successfully created SCORECARD table");
     }
@@ -114,6 +115,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GAME_IS_END, details.isGameEnd());
         values.put(KEY_GAME_WINNER, winner);
         values.put(KEY_GAME_TOTAL_SCORES, arrayToString(details.getGameTotalScores()));
+        values.put(KEY_GAME_MAX_LIMIT, Integer.toString(details.getGameMaxLimit()));
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -194,6 +196,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             object.setGameScores(stringToArray(cur.getString(6)));
             object.setGameIsEnd(Boolean.valueOf(cur.getString(7)));
             object.setGameTotalScores(stringToArray(cur.getString(8)));
+            object.setGameMaxLimit(Integer.parseInt(cur.getString(9)));
         }catch (Exception e){
             e.printStackTrace();
         }

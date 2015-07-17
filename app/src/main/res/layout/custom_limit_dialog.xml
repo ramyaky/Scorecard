@@ -7,18 +7,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Maximum Score : "
+        android:text="@string/maximum_score_label"
         android:id="@+id/limitLabel"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"/>
 
     <EditText
         android:layout_width="126dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:id="@+id/limitValue"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:ems="20"
+        android:layout_toEndOf="@+id/limitLabel"
         android:layout_toRightOf="@+id/limitLabel"
         android:layout_alignBottom="@+id/limitLabel" />
 
@@ -26,9 +28,12 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/limit_score_button"
         android:id="@+id/limitButton"
         android:layout_marginTop="25dp"
+        android:padding="7dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/mybuttonstyle"
         android:layout_below="@+id/limitLabel"
          android:layout_centerHorizontal="true"/>
 

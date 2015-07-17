@@ -54,7 +54,6 @@ public class DetailsFragment extends Fragment {
 
         headerRow.addView(tRound);
 
-
         try {
 
             ArrayList<String> playersList = detailsObject.getGamePlayers();
@@ -74,48 +73,50 @@ public class DetailsFragment extends Fragment {
 
             for (int i=0; i<getArguments().getInt("round") - 1; i++) {
                 isListings = true;
-                System.out.println("Inside Round");
                 TableRow tr = new TableRow(getActivity());
 
                 tr.setLayoutParams(tableRowParams);
                 roundTextViews[i] = new TextView(getActivity());
                 roundTextViews[i].setText("" + (i+1));
                 roundTextViews[i].setPadding(20,20,20,20);
+                roundTextViews[i].setTextAppearance(getActivity(), R.style.playerScoreText);
+                roundTextViews[i].setGravity(Gravity.CENTER_HORIZONTAL);
                 tr.addView(roundTextViews[i]);
 
-                System.out.println("Printing ScoresList value : " + scoresList.get(i+1));
                 JSONObject scoreObject = new JSONObject(scoresList.get(i+1));
 
                 for(int j=0; j<playersList.size(); j++) {
                     scoreTextViews[j] = new TextView(getActivity());
-
                     scoreTextViews[j].setText("" + scoreObject.getString(playersList.get(j)));
                     scoreTextViews[j].setPadding(20,20,20,20);
+                    scoreTextViews[j].setGravity(Gravity.CENTER_HORIZONTAL);
                     scoreTextViews[j].setTextAppearance(getActivity(), R.style.playerScoreText);
                     tr.addView(scoreTextViews[j]);
-
                 }
                 detailsTable.addView(tr);
             }
 
             if(isListings){
                 ArrayList<String> totalScoresList = detailsObject.getGameTotalScores();
-                System.out.println("printing Total Scores List : " + totalScoresList);
+                //System.out.println("printing Total Scores List : " + totalScoresList);
                 JSONObject totalObject = new JSONObject(totalScoresList.get(0));
                 TableRow trEmpty = new TableRow(getActivity());
                 detailsTable.addView(trEmpty);
                 TableRow tr = new TableRow(getActivity());
                 TextView tTotal = new TextView(getActivity());
                 tTotal.setText("Total");
+                tTotal.setGravity(Gravity.CENTER_HORIZONTAL);
                 tTotal.setTextAppearance(getActivity(), R.style.boldText);
                 tr.addView(tTotal);
                 for(int i=0; i<playersList.size(); i++){
                     TextView textView = new TextView(getActivity());
-                    System.out.println("Printing individual value : " + totalObject.get(playersList.get(i)));
+                    textView.setGravity(Gravity.CENTER_HORIZONTAL);
                     textView.setText("" + totalObject.get(playersList.get(i)));
                     textView.setTextAppearance(getActivity(), R.style.boldText);
                     textView.setPadding(20,20,20,20);
+                    tr.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
                     tr.addView(textView);
+
                 }
                 detailsTable.addView(tr);
             }

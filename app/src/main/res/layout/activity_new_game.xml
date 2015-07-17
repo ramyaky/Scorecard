@@ -4,7 +4,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/greybg"
     android:layout_centerHorizontal="true"
     tools:context="com.example.ramyaky.scorecard.NewGame">
 
@@ -22,6 +21,8 @@
         android:layout_height="wrap_content"
         android:text="Continue with these players ?"
         android:id="@+id/button4"
+        android:padding="7dp"
+        android:background="@drawable/mybuttonstyle"
         android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="175dp" />
@@ -41,6 +42,8 @@
         android:layout_height="wrap_content"
         android:text="Start Fresh"
         android:id="@+id/button3"
+        android:padding="7dp"
+        android:background="@drawable/mybuttonstyle"
         android:layout_below="@+id/button4"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />

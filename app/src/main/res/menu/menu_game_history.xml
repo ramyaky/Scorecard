@@ -4,6 +4,7 @@
     tools:context="com.example.ramyaky.scorecard.GameHistory">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/clearHistory" android:title="Clear History"
-          app:showAsAction="always"/>
+    <item android:id="@+id/refreshHistory" android:icon="@drawable/refresh" android:title="@string/refresh_history"
+        app:showAsAction="always|withText" />
+
 </menu>

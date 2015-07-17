@@ -3,5 +3,6 @@
 
     <drawable name="light_grey">#C8C8C8 </drawable>
     <color name="light_grey">#C8C8C8 </color>
-
+    <color name="sea_green">#068B97</color>
+    <color name="light_blue">#5fAED9</color>
 </resources>

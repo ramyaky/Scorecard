@@ -15,6 +15,7 @@ public class GameContinuity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_continuity);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
 
@@ -31,6 +32,18 @@ public class GameContinuity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CurrentGameScorecard.class);
                 intent.putExtra("GameObject", getIntent().getExtras().getParcelable("GameObject"));
+                intent.putExtra("isResume", 1);
+                startActivity(intent);
+            }
+        });
+
+        Button cloneButton = (Button) findViewById(R.id.cloneButton);
+        cloneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StartFreshGame.class);
+                intent.putExtra("GameObject", getIntent().getExtras().getParcelable("GameObject"));
+                intent.putExtra("isClone", 1);
                 startActivity(intent);
             }
         });

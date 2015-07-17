@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Large Text"
+        android:textColor="#5faed9"
         android:id="@+id/gameStartTime"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

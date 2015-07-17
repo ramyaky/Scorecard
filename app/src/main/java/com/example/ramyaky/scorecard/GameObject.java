@@ -23,13 +23,14 @@ public class GameObject implements Parcelable{
     ArrayList<String> _gameScores;
     ArrayList<String> _gameTotalScores;
     ArrayList<String> _gameWinners;
+    int _gameMaxLimit;
 
 
     public GameObject() {
 
     }
 
-    public GameObject(String gName, String gStartTime, String gType, boolean gIsEnd, ArrayList<String> gPlayers, ArrayList<String> gScores, ArrayList<String> gTotalScores) {
+    public GameObject(String gName, String gStartTime, String gType, int gMaxLimit, boolean gIsEnd, ArrayList<String> gPlayers, ArrayList<String> gScores, ArrayList<String> gTotalScores) {
         this._gameName = gName;
         this._gameStartTime = gStartTime;
         this._gameType = gType;
@@ -39,6 +40,7 @@ public class GameObject implements Parcelable{
         this._gamePlayers = gPlayers;
         this._gameScores = gScores;
         this._gameTotalScores = gTotalScores;
+        this._gameMaxLimit = gMaxLimit;
 
     }
 
@@ -78,6 +80,8 @@ public class GameObject implements Parcelable{
         return this._gameScores;
     }
 
+    public int getGameMaxLimit() { return this._gameMaxLimit; }
+
     /* All set methods */
 
     public void setGameEndTime(String gEndTime) {
@@ -112,6 +116,8 @@ public class GameObject implements Parcelable{
         this._gameScores = gScores;
     }
 
+    public void setGameMaxLimit(int gMaxLimit) { this._gameMaxLimit = gMaxLimit; }
+
 
     @Override
     public int describeContents() {
@@ -124,10 +130,12 @@ public class GameObject implements Parcelable{
         b.putString("GameName", _gameName);
         b.putString("GameStartTime", _gameStartTime);
         b.putString("GameType", _gameType);
+        b.putInt("GameMaxLimit", _gameMaxLimit);
         b.putBoolean("IsGameEnd", _gameIsEnd);
         b.putStringArrayList("GamePlayers", _gamePlayers);
         b.putStringArrayList("GameScores", _gameScores);
         b.putStringArrayList("GameTotalScores", _gameTotalScores);
+
 
         dest.writeBundle(b);
     }
@@ -138,7 +146,7 @@ public class GameObject implements Parcelable{
             Bundle b = new Bundle();
             b = source.readBundle();
 
-            return new GameObject(b.getString("GameName"), b.getString("GameStartTime"), b.getString("GameType"), b.getBoolean("IsGameEnd"), b.getStringArrayList("GamePlayers"), b.getStringArrayList("GameScores"), b.getStringArrayList("GameTotalScores"));
+            return new GameObject(b.getString("GameName"), b.getString("GameStartTime"), b.getString("GameType"), b.getInt("GameMaxLimit"), b.getBoolean("IsGameEnd"), b.getStringArrayList("GamePlayers"), b.getStringArrayList("GameScores"), b.getStringArrayList("GameTotalScores"));
 
         }
 

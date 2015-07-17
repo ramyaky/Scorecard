@@ -37,6 +37,7 @@ public class GameHistory extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_history);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         gameRecordListAdapter = new scoreCardAdapter();
         gameHistoryListView = (ListView) findViewById(R.id.listView);
@@ -45,9 +46,7 @@ public class GameHistory extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //view.setSelected(true);
                 GameObject object = gameRecordListAdapter.getGameHistoryObject(position);
-                //Toast.makeText(getApplicationContext(), object.getGameName(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), GameContinuity.class);
                 intent.putExtra("gameName", object.getGameName());
                 intent.putExtra("startTime", object.getGameStartTime());
@@ -63,7 +62,6 @@ public class GameHistory extends ActionBarActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 gameHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
                 gameHistoryListView.setItemChecked(position, true);
-                //gameRecordListAdapter.updateSelectionArray(position, true);
                 return true;
             }
         });
@@ -85,7 +83,6 @@ public class GameHistory extends ActionBarActivity {
                         mode.setSubtitle("" + checkedItemsCount + " items selected");
                         break;
                 }
-
             }
 
             @Override
@@ -241,7 +238,7 @@ public class GameHistory extends ActionBarActivity {
 
                 // highlights item(s) upon selection
                 if(selectedItemsArray.get(position)){
-                    convertView.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                    convertView.setBackgroundColor(getResources().getColor(R.color.light_blue));
                 }
                 TextView name = (TextView)convertView.findViewById(R.id.gameName);
                 TextView time = (TextView)convertView.findViewById(R.id.gameStartTime);
@@ -337,10 +334,9 @@ public class GameHistory extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()) {
-            case R.id.clearHistory:
-                markSelectionAllItems();
-                System.out.println("Selected all  : " + gameRecordListAdapter.getSelectedIdsCount() + " items");
-                deleteActionMode();
+            case R.id.refreshHistory:
+                gameRecordListAdapter.refreshDataSet();
+                Toast.makeText(getApplicationContext(), "Done reloading history.", Toast.LENGTH_SHORT).show();
                 return true;
         }
         int id = item.getItemId();

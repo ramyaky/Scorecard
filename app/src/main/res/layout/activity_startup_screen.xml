@@ -3,7 +3,7 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#b4bdb3"
+
     android:layout_gravity="center_horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".startupScreen">
 
@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to Scorecard"
+        android:text="@string/welcome_message"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -19,16 +19,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Game"
+        android:text="@string/new_game_button"
         android:id="@+id/newGame"
+        android:padding="7dp"
+        android:background="@drawable/mybuttonstyle"
         android:layout_above="@+id/history"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="History"
+        android:text="@string/history_button"
         android:id="@+id/history"
+        android:padding="7dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mybuttonstyle"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

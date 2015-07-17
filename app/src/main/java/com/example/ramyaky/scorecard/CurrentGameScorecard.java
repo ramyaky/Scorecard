@@ -3,6 +3,7 @@ package com.example.ramyaky.scorecard;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -37,8 +38,9 @@ public class CurrentGameScorecard extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_game_scorecard);
 
-        TextView tvHeading = (TextView) findViewById(R.id.heading);
+        //TextView tvHeading = (TextView) findViewById(R.id.heading);
         TextView tvRound = (TextView) findViewById(R.id.round);
+        TextView tvLimit = (TextView) findViewById(R.id.showLimit);
         TableLayout scoreTable = (TableLayout) findViewById(R.id.scoreTable);
         final Button doneEntering = (Button) findViewById(R.id.doneEntering);
         final Button viewDetails = (Button) findViewById(R.id.viewDetails);
@@ -47,11 +49,16 @@ public class CurrentGameScorecard extends ActionBarActivity {
         Bundle b = getIntent().getExtras();
         int noOfPlayers = 0;
 
-        gameLimitValue = b.getInt("Limit");
         gameParcelableObject = b.getParcelable("GameObject");
 
-        try {
+        ActionBar actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("" + gameParcelableObject.getGameName() + " Scorecard");
 
+
+        try {
+            gameLimitValue = gameParcelableObject.getGameMaxLimit();
+            System.out.println("My limit value after resuming immediate is : " + gameLimitValue);
             String gameName = gameParcelableObject.getGameName();
             ArrayList<String> namesList = gameParcelableObject.getGamePlayers();
             final ArrayList<String> scoresList = gameParcelableObject.getGameScores();
@@ -66,14 +73,16 @@ public class CurrentGameScorecard extends ActionBarActivity {
             winnerImages = new ImageView[noOfPlayers];
 
 
-            tvHeading.setText("Scorecard for " + gameName.toUpperCase());
+            //tvHeading.setText("Scorecard for " + gameName.toUpperCase());
             tvRound.setText("Round " + scoresList.size());
+            tvRound.setTextAppearance(getApplicationContext(),R.style.boldText);
+            tvLimit.setText("( Max Score : " + gameLimitValue + " )");
+            tvLimit.setTextAppearance(getApplicationContext(),R.style.boldText);
 
             for(int i = 0; i< noOfPlayers; i++){
 
                 TableRow tr = new TableRow(getApplicationContext());
 
-                //Log.d("MyValuesForChecking", "i value is" + i);
                 playersList[i] = new TextView(getApplicationContext());
                 currentValueList[i] = new EditText(getApplicationContext());
                 playersTotalValues[i] = new Button(getApplicationContext());
@@ -86,7 +95,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 playersList[i].setId(i);
 
                 currentValueList[i].setInputType(InputType.TYPE_CLASS_NUMBER);
-                //currentValueList[i].setText("0");
                 currentValueList[i].setTextColor(Color.BLACK);
                 currentValueList[i].setSelectAllOnFocus(true);
                 currentValueList[i].setGravity(Gravity.LEFT);
@@ -123,11 +131,25 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 tr.setBackgroundResource(android.R.color.transparent);
                 tr.setVerticalGravity(Gravity.CENTER_VERTICAL);
                 scoreTable.addView(tr);
-
-
             }
 
-            doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, namesList, gameParcelableObject.getGameType(), playersList, currentValueList, playersPreviousValues, playersTotalValues, winnerImages));
+            // condition to check for game resume or game start. As we are reusing the same activity for
+            // both game resume and for starting a new game scorecard.
+
+            if(b.getInt("isResume") == 1) {
+                for( int i=0; i< namesList.size(); i++) {
+                    if(Integer.parseInt(playersTotalValues[i].getText().toString()) >= gameLimitValue) {
+                        currentValueList[i].setFocusable(false);
+                        currentValueList[i].setBackgroundColor(Color.rgb(255, 230, 230));
+                        playersPreviousValues[i].setTextColor(Color.RED);
+                        playersTotalValues[i].setTextColor(Color.RED);
+                        playersList[i].setTextColor(Color.RED);
+                        currentValueList[i].setText("0");
+                    }
+                }
+            }
+
+            doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, tvLimit, namesList, gameParcelableObject.getGameType(), playersList, currentValueList, playersPreviousValues, playersTotalValues, winnerImages));
             viewDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -147,30 +169,23 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
 
 
-    public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final ArrayList<String> players, final String mode, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues, final ImageView[] images) {
+    public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final TextView tvLimit, final ArrayList<String> players, final String mode, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues, final ImageView[] images) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean allGood = true;
 
                 for(int i=0; i<noOfPlayers; i++) {
+                    System.out.println("My limit value is : " + gameLimitValue);
                     if(currentValues[i].getText().toString().length() == 0) {
                         if(Integer.parseInt(totalValues[i].getText().toString()) < gameLimitValue) {
                             currentValues[i].setError("Value required");
                             allGood = false;
-                            System.out.println("here at 1");
-                        }else {
-                            allGood = true;
-                        }
-
-
+                        }else {  allGood = true;   }
                     }
-                    else{
-                        allGood = true;
-                        System.out.println("here at 2");
-                    }
+                    else { allGood = true;  }
                 }
-                System.out.println("printing all good status : " + allGood);
+
                 if(allGood) {
                     try {
 
@@ -190,6 +205,10 @@ public class CurrentGameScorecard extends ActionBarActivity {
                             currentValues[i].setText("");
                         }
 
+                        for(int i=0; i<players.size(); i++) {
+                            images[i].setImageBitmap(null);
+                        }
+
                         int winnerValue = findHighest(mode,tmpObjTotal, players);
                         ArrayList<String> winners = new ArrayList<String>();
 
@@ -201,12 +220,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
                             }else {
                                 winners.add("0");
                             }
-                        }
-
-                        System.out.println("My winners list : " +winners);
-
-                        for(int i=0; i<players.size(); i++) {
-                            images[i].setImageBitmap(null);
                         }
 
                         for ( int i=0; i<winners.size(); i++) {
@@ -228,6 +241,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                         gameParcelableObject.setGameScores(tmpScores);
                         gameParcelableObject.setGameTotalScores(totalScores);
                         tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
+
                         updateDatabase(gameParcelableObject);
 
                     }catch(Exception e){
@@ -242,7 +256,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
     public int findHighest(String type, JSONObject total, ArrayList<String> players) {
         int value = 0;
-        System.out.println("Printing my mode value : " + type);
         try {
         value = Integer.parseInt(total.get(players.get(0)).toString());
 
@@ -256,7 +269,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 }
             }else {
                 for (int i = 1; i < players.size(); i++) {
-                    System.out.println("Inside MIN");
                     if (value > Integer.parseInt(total.get(players.get(i)).toString())) {
                         value = Integer.parseInt(total.get(players.get(i)).toString());
                     }
@@ -272,18 +284,13 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
     public void updateDatabase(GameObject myObj){
         try{
-
             SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
-
             String dateString = myObj.getGameStartTime();
-
             if(dbObj.checkRecordExists(dateString)) {
-
                 dbObj.updateGameScoreRecord(dateString, myObj, "none");
             }else {
                 dbObj.addRecord(dateString, myObj, "none");
             }
-
         }catch(Exception e){
             e.printStackTrace();
         }

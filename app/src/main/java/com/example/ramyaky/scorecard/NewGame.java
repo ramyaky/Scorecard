@@ -43,6 +43,7 @@ public class NewGame extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(), StartFreshGame.class);
+                intent2.putExtra("isClone", 0);
                 startActivity(intent2);
             }
         });
