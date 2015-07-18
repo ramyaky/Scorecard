@@ -38,7 +38,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
         android:isScrollContainer="false"
-        android:layout_above="@+id/doneEntering">
+        android:layout_above="@+id/ll3">
 
         <LinearLayout
             android:id="@+id/linear_layout"
@@ -56,6 +56,14 @@
 
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/ll3"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
+         >
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,11 +72,8 @@
         android:layout_gravity="center_horizontal"
         android:padding="7dp"
         android:background="@drawable/mybuttonstyle"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="46dp"
-        android:layout_marginStart="46dp" />
+
+         />
 
     <Button
         android:layout_width="wrap_content"
@@ -78,11 +83,12 @@
         android:background="@drawable/mybuttonstyle"
         android:id="@+id/viewDetails"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
+
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
-        android:layout_toRightOf="@+id/doneEntering"
-        android:layout_toEndOf="@+id/doneEntering" />
+         />
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"

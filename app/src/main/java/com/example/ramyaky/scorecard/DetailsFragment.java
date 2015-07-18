@@ -1,6 +1,7 @@
 package com.example.ramyaky.scorecard;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -87,9 +88,9 @@ public class DetailsFragment extends Fragment {
                 }
                 tr.setLayoutParams(tableRowParams);
                 roundTextViews[i] = new TextView(getActivity());
-                roundTextViews[i].setText("" + (i+1));
+                roundTextViews[i].setText("#" + (i+1));
                 //roundTextViews[i].setPadding(0,20,20,20);
-                roundTextViews[i].setTextAppearance(getActivity(), R.style.playerScoreText);
+                roundTextViews[i].setTypeface(null, Typeface.BOLD_ITALIC);
                 roundTextViews[i].setGravity(Gravity.CENTER_HORIZONTAL);
                 tr.addView(roundTextViews[i]);
 
