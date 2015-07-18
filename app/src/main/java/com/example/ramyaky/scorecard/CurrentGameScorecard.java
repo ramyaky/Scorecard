@@ -76,7 +76,11 @@ public class CurrentGameScorecard extends ActionBarActivity {
             //tvHeading.setText("Scorecard for " + gameName.toUpperCase());
             tvRound.setText("Round " + scoresList.size());
             tvRound.setTextAppearance(getApplicationContext(),R.style.boldText);
-            tvLimit.setText("( Max Score : " + gameLimitValue + " )");
+            if(gameParcelableObject.getGameType().equals("Min")) {
+                tvLimit.setText("( Max Score : " + gameLimitValue + " )");
+            }else {
+                tvLimit.setText("( No Max Value Set )");
+            }
             tvLimit.setTextAppearance(getApplicationContext(),R.style.boldText);
 
             for(int i = 0; i< noOfPlayers; i++){
@@ -137,14 +141,16 @@ public class CurrentGameScorecard extends ActionBarActivity {
             // both game resume and for starting a new game scorecard.
 
             if(b.getInt("isResume") == 1) {
-                for( int i=0; i< namesList.size(); i++) {
-                    if(Integer.parseInt(playersTotalValues[i].getText().toString()) >= gameLimitValue) {
-                        currentValueList[i].setFocusable(false);
-                        currentValueList[i].setBackgroundColor(Color.rgb(255, 230, 230));
-                        playersPreviousValues[i].setTextColor(Color.RED);
-                        playersTotalValues[i].setTextColor(Color.RED);
-                        playersList[i].setTextColor(Color.RED);
-                        currentValueList[i].setText("0");
+                if(gameParcelableObject.getGameType().equals("Min")) {
+                    for (int i = 0; i < namesList.size(); i++) {
+                        if (Integer.parseInt(playersTotalValues[i].getText().toString()) >= gameLimitValue) {
+                            currentValueList[i].setFocusable(false);
+                            currentValueList[i].setBackgroundColor(Color.rgb(255, 230, 230));
+                            playersPreviousValues[i].setTextColor(Color.RED);
+                            playersTotalValues[i].setTextColor(Color.RED);
+                            playersList[i].setTextColor(Color.RED);
+                            currentValueList[i].setText("0");
+                        }
                     }
                 }
             }
@@ -228,7 +234,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                             if((! winners.get(i).equals("0")) && (! winners.get(i).equals(Integer.toString(gameLimitValue)))) {
                                 images[i].setImageResource(R.drawable.crown4);
                                 winnersList.add(winners.get(i));
-                            }else if(winners.get(i).equals(Integer.toString(gameLimitValue))) {
+                            }else if(winners.get(i).equals(Integer.toString(gameLimitValue)) && gameParcelableObject.getGameType().equals("Min")) {
                                 currentValues[i].setFocusable(false);
                                 currentValues[i].setBackgroundColor(Color.rgb(255, 230, 230));
                                 previousValues[i].setTextColor(Color.RED);
