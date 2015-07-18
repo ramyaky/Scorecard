@@ -12,25 +12,30 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NewGame"
             android:label="@string/title_activity_new_game" >
+
         </activity>
         <activity
             android:name=".StartFreshGame"
             android:label="@string/title_activity_start_fresh_game" >
+
         </activity>
         <activity
             android:name=".CurrentGameScorecard"
             android:label="@string/title_activity_current_game_scorecard" >
+
         </activity>
         <activity
             android:name=".GameHistory"
             android:label="@string/title_activity_game_history" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ramyaky.scorecard.StartupScreen"/>
         </activity>
         <activity
             android:name=".GameDetails"
@@ -39,6 +44,9 @@
         <activity
             android:name=".GameContinuity"
             android:label="@string/title_activity_game_continuity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ramyaky.scorecard.GameHistory"/>
         </activity>
     </application>
 

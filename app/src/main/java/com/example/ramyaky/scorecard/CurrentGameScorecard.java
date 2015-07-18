@@ -52,7 +52,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
         gameParcelableObject = b.getParcelable("GameObject");
 
         ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("" + gameParcelableObject.getGameName() + " Scorecard");
 
 
@@ -176,7 +176,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 boolean allGood = true;
 
                 for(int i=0; i<noOfPlayers; i++) {
-                    System.out.println("My limit value is : " + gameLimitValue);
+
                     if(currentValues[i].getText().toString().length() == 0) {
                         if(Integer.parseInt(totalValues[i].getText().toString()) < gameLimitValue) {
                             currentValues[i].setError("Value required");
@@ -211,6 +211,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
                         int winnerValue = findHighest(mode,tmpObjTotal, players);
                         ArrayList<String> winners = new ArrayList<String>();
+                        ArrayList<String> winnersList = new ArrayList<String>();
 
                         for(String p : players){
                             if( (Integer.parseInt(tmpObjTotal.get(p).toString()) == winnerValue) ) {
@@ -226,6 +227,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
                             if((! winners.get(i).equals("0")) && (! winners.get(i).equals(Integer.toString(gameLimitValue)))) {
                                 images[i].setImageResource(R.drawable.crown4);
+                                winnersList.add(winners.get(i));
                             }else if(winners.get(i).equals(Integer.toString(gameLimitValue))) {
                                 currentValues[i].setFocusable(false);
                                 currentValues[i].setBackgroundColor(Color.rgb(255, 230, 230));
@@ -240,6 +242,8 @@ public class CurrentGameScorecard extends ActionBarActivity {
                         totalScores.add(tmpObjTotal.toString());
                         gameParcelableObject.setGameScores(tmpScores);
                         gameParcelableObject.setGameTotalScores(totalScores);
+
+                        gameParcelableObject.setGameWinners(winnersList);
                         tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
 
                         updateDatabase(gameParcelableObject);
@@ -287,9 +291,9 @@ public class CurrentGameScorecard extends ActionBarActivity {
             SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
             String dateString = myObj.getGameStartTime();
             if(dbObj.checkRecordExists(dateString)) {
-                dbObj.updateGameScoreRecord(dateString, myObj, "none");
+                dbObj.updateGameScoreRecord(dateString, myObj);
             }else {
-                dbObj.addRecord(dateString, myObj, "none");
+                dbObj.addRecord(dateString, myObj);
             }
         }catch(Exception e){
             e.printStackTrace();

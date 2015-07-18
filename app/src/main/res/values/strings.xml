@@ -40,7 +40,7 @@
     <string name="enter_score_label">Enter\nScore</string>
     <string name="previous_score_label">Previous\nScore</string>
     <string name="total_score_label">Total\nScore</string>
-    <string name="clone_game">\sClone Game</string>
+    <string name="clone_game">Clone Game</string>
 
 </resources>
 

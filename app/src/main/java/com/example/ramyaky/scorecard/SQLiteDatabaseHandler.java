@@ -101,7 +101,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addRecord(String date, GameObject details, String winner){
+    public void addRecord(String date, GameObject details){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -113,7 +113,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GAME_SCORES, arrayToString(details.getGameScores()));
         values.put(KEY_GAME_TYPE, details.getGameType());
         values.put(KEY_GAME_IS_END, details.isGameEnd());
-        values.put(KEY_GAME_WINNER, winner);
+        values.put(KEY_GAME_WINNER, arrayToString(details.getGameWinners()));
         values.put(KEY_GAME_TOTAL_SCORES, arrayToString(details.getGameTotalScores()));
         values.put(KEY_GAME_MAX_LIMIT, Integer.toString(details.getGameMaxLimit()));
 
@@ -122,13 +122,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void updateGameScoreRecord(String date, GameObject details, String winner){
+    public void updateGameScoreRecord(String date, GameObject details){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_GAME_SCORES, arrayToString(details.getGameScores()));
-        values.put(KEY_GAME_WINNER, winner);
+        values.put(KEY_GAME_WINNER, arrayToString(details.getGameWinners()));
         values.put(KEY_GAME_TOTAL_SCORES, arrayToString(details.getGameTotalScores()));
 
         db.update(TABLE_NAME,values, KEY_GAME_START_TIME + " = ?", new String[] {date} );
@@ -190,6 +190,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         try{
             object.setGameStartTime(cur.getString(0));
             object.setGameName(cur.getString(1));
+            object.setGameWinners(stringToArray(cur.getString(2)));
             object.setGameType(cur.getString(3));
             object.setGameEndTime(cur.getString(4));
             object.setGamePlayers(stringToArray(cur.getString(5)));

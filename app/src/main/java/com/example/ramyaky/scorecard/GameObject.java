@@ -30,7 +30,7 @@ public class GameObject implements Parcelable{
 
     }
 
-    public GameObject(String gName, String gStartTime, String gType, int gMaxLimit, boolean gIsEnd, ArrayList<String> gPlayers, ArrayList<String> gScores, ArrayList<String> gTotalScores) {
+    public GameObject(String gName, String gStartTime, String gType, int gMaxLimit, boolean gIsEnd, ArrayList<String> gPlayers, ArrayList<String> gScores, ArrayList<String> gTotalScores, ArrayList<String> gWinners) {
         this._gameName = gName;
         this._gameStartTime = gStartTime;
         this._gameType = gType;
@@ -41,7 +41,7 @@ public class GameObject implements Parcelable{
         this._gameScores = gScores;
         this._gameTotalScores = gTotalScores;
         this._gameMaxLimit = gMaxLimit;
-
+        this._gameWinners = gWinners;
     }
 
     /* All get methods */
@@ -82,6 +82,8 @@ public class GameObject implements Parcelable{
 
     public int getGameMaxLimit() { return this._gameMaxLimit; }
 
+    public ArrayList<String> getGameWinners() { return this._gameWinners; }
+
     /* All set methods */
 
     public void setGameEndTime(String gEndTime) {
@@ -118,6 +120,7 @@ public class GameObject implements Parcelable{
 
     public void setGameMaxLimit(int gMaxLimit) { this._gameMaxLimit = gMaxLimit; }
 
+    public void setGameWinners(ArrayList<String> gWinners) { this._gameWinners = gWinners; }
 
     @Override
     public int describeContents() {
@@ -135,7 +138,7 @@ public class GameObject implements Parcelable{
         b.putStringArrayList("GamePlayers", _gamePlayers);
         b.putStringArrayList("GameScores", _gameScores);
         b.putStringArrayList("GameTotalScores", _gameTotalScores);
-
+        b.putStringArrayList("GameWinners", _gameWinners);
 
         dest.writeBundle(b);
     }
@@ -146,7 +149,7 @@ public class GameObject implements Parcelable{
             Bundle b = new Bundle();
             b = source.readBundle();
 
-            return new GameObject(b.getString("GameName"), b.getString("GameStartTime"), b.getString("GameType"), b.getInt("GameMaxLimit"), b.getBoolean("IsGameEnd"), b.getStringArrayList("GamePlayers"), b.getStringArrayList("GameScores"), b.getStringArrayList("GameTotalScores"));
+            return new GameObject(b.getString("GameName"), b.getString("GameStartTime"), b.getString("GameType"), b.getInt("GameMaxLimit"), b.getBoolean("IsGameEnd"), b.getStringArrayList("GamePlayers"), b.getStringArrayList("GameScores"), b.getStringArrayList("GameTotalScores"), b.getStringArrayList("GameWinners"));
 
         }
 

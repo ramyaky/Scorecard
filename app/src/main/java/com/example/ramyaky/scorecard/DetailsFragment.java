@@ -1,5 +1,6 @@
 package com.example.ramyaky.scorecard;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -31,26 +32,32 @@ public class DetailsFragment extends Fragment {
         GameObject detailsObject = dbObj.getGameRecord(getArguments().getString("startTime"), getArguments().getString("gameName"));
         TextView tv = (TextView) rootView.findViewById(R.id.gameHeading);
 
-        tv.setText("Full Scorecard for " + detailsObject.getGameName());
+        String winnerString = "";
+        for(int i=0; i<detailsObject.getGameWinners().size(); i++){
+            winnerString += detailsObject.getGameWinners().get(i) + ",";
+        }
+        tv.setText("" + winnerString.substring(0,winnerString.length()-1));
         tv.setGravity(Gravity.CENTER_HORIZONTAL);
         TableLayout.LayoutParams tableRowParams=
                 new TableLayout.LayoutParams
                         (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
 
-        int leftMargin=10;
+        int leftMargin=2;
         int topMargin=2;
-        int rightMargin=10;
+        int rightMargin=2;
         int bottomMargin=2;
         tableRowParams.gravity = Gravity.CENTER_HORIZONTAL;
 
         tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
         TableLayout detailsTable = (TableLayout) rootView.findViewById(R.id.detailsTable);
+        detailsTable.setBackgroundColor(Color.rgb(224,224,224));
         TableRow headerRow = new TableRow(getActivity());
         headerRow.setLayoutParams(tableRowParams);
+        headerRow.setBackgroundColor(Color.rgb(95, 174, 217));
         TextView tRound = new TextView(getActivity());
         tRound.setText("Round");
-        tRound.setPadding(20, 20, 20, 20);
+        //tRound.setPadding(0, 20, 20, 20);
 
         headerRow.addView(tRound);
 
@@ -75,10 +82,13 @@ public class DetailsFragment extends Fragment {
                 isListings = true;
                 TableRow tr = new TableRow(getActivity());
 
+                if(i%2 == 0) {
+                    tr.setBackgroundColor(Color.rgb(240,240,240));
+                }
                 tr.setLayoutParams(tableRowParams);
                 roundTextViews[i] = new TextView(getActivity());
                 roundTextViews[i].setText("" + (i+1));
-                roundTextViews[i].setPadding(20,20,20,20);
+                //roundTextViews[i].setPadding(0,20,20,20);
                 roundTextViews[i].setTextAppearance(getActivity(), R.style.playerScoreText);
                 roundTextViews[i].setGravity(Gravity.CENTER_HORIZONTAL);
                 tr.addView(roundTextViews[i]);
@@ -103,6 +113,9 @@ public class DetailsFragment extends Fragment {
                 TableRow trEmpty = new TableRow(getActivity());
                 detailsTable.addView(trEmpty);
                 TableRow tr = new TableRow(getActivity());
+                if((getArguments().getInt("round")%2 != 0)) {
+                    tr.setBackgroundColor(Color.rgb(240,240,240));
+                }
                 TextView tTotal = new TextView(getActivity());
                 tTotal.setText("Total");
                 tTotal.setGravity(Gravity.CENTER_HORIZONTAL);

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,12 +34,13 @@ public class StartFreshGame extends ActionBarActivity {
     RadioButton winMode;
     RadioGroup winModeGroup;
     int gameLimitScore;
+    ArrayList<String> winnersList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_fresh_game);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final EditText etGameName = (EditText) findViewById(R.id.etGameName);
         //final TextView tv = (TextView) findViewById(R.id.tvWinMode);
@@ -186,11 +188,11 @@ public class StartFreshGame extends ActionBarActivity {
                         totalScores = scoresList;
                         System.out.println("Printing my mode string : " + winMode.getText().toString());
 
-                        GameObject myGameObject = new GameObject(gameName.getText().toString(), ts.toString(), winMode.getText().toString(), gameLimitScore, false, namesList, scoresList, totalScores);
+                        GameObject myGameObject = new GameObject(gameName.getText().toString(), ts.toString(), winMode.getText().toString(), gameLimitScore, false, namesList, scoresList, totalScores, winnersList);
 
                         SQLiteDatabaseHandler dbObj = new SQLiteDatabaseHandler(getApplicationContext());
                         String dateString = myGameObject.getGameStartTime();
-                        dbObj.addRecord(dateString, myGameObject, "none");
+                        dbObj.addRecord(dateString, myGameObject);
 
                         Intent intent = new Intent(getApplicationContext(), CurrentGameScorecard.class);
                         intent.putExtra("GameObject", myGameObject);
@@ -219,6 +221,11 @@ public class StartFreshGame extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

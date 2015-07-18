@@ -25,7 +25,8 @@ public class StartupScreen extends ActionBarActivity {
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(context, NewGame.class);
+                Intent intent1 = new Intent(context, StartFreshGame.class);
+                intent1.putExtra("isClone", 0);
                 startActivity(intent1);
             }
         });

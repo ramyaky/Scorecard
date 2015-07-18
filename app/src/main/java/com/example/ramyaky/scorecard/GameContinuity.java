@@ -1,6 +1,7 @@
 package com.example.ramyaky.scorecard;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +17,10 @@ public class GameContinuity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_continuity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bundle bundle = getIntent().getExtras();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("" + bundle.getString("gameName") + " Scorecard");
 
         if (savedInstanceState == null) {
 
