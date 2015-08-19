@@ -17,26 +17,27 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/new_game_button"
         android:id="@+id/newGame"
+        android:textColor="#FFFFFF"
         android:padding="7dp"
         android:background="@drawable/mybuttonstyle"
         android:layout_above="@+id/history"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/history_button"
         android:id="@+id/history"
         android:padding="7dp"
+        android:textColor="#FFFFFF"
         android:layout_marginTop="20dp"
         android:background="@drawable/mybuttonstyle"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
 
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.ramyaky.scorecard.GameHistory">
     <item android:id="@+id/selectAll"
           android:title="@string/select_all"/>
     <item android:id="@+id/deselectAll"

@@ -92,9 +92,10 @@
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/add"
+        android:textColor="#FFFFFF"
         android:padding="7dp"
         android:background="@drawable/mybuttonstyle"
         android:id="@+id/addPlayerButton"
@@ -130,10 +131,11 @@
     </ScrollView>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/done"
         android:id="@+id/done"
+        android:textColor="#FFFFFF"
         android:padding="7dp"
         android:background="@drawable/mybuttonstyle"
         android:layout_gravity="center_horizontal"

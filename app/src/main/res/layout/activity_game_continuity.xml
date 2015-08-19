@@ -14,9 +14,10 @@
         android:layout_marginBottom="20dp">
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/resume_game_button"
+        android:textColor="#FFFFFF"
         android:id="@+id/resumeButton"
         android:padding="10dp"
         android:background="@drawable/mybuttonstyle"
@@ -24,9 +25,10 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/clone_game"
+        android:textColor="#FFFFFF"
         android:layout_marginLeft="30dp"
         android:padding="10dp"
         android:background="@drawable/mybuttonstyle"
@@ -39,12 +41,15 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/ll2"
         android:layout_above="@+id/ll2"
-        android:id="@+id/frame1">
+        android:id="@+id/frame1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
     </FrameLayout>
 

@@ -26,8 +26,9 @@ import java.util.ArrayList;
 public class CurrentGameScorecard extends ActionBarActivity {
 
     public TextView[] playersList;
+    public TextView playerNameLabel, enterScoreLabel, previousScoreLabel, totalScoreLabel;
     public EditText[] currentValueList;
-    public Button[] playersTotalValues;
+    public TextView[] playersTotalValues;
     public TextView[] playersPreviousValues;
     public ImageView[] winnerImages;
     public GameObject gameParcelableObject;
@@ -44,7 +45,18 @@ public class CurrentGameScorecard extends ActionBarActivity {
         TableLayout scoreTable = (TableLayout) findViewById(R.id.scoreTable);
         final Button doneEntering = (Button) findViewById(R.id.doneEntering);
         final Button viewDetails = (Button) findViewById(R.id.viewDetails);
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TableLayout.LayoutParams tableRowParams=
+                new TableLayout.LayoutParams
+                        (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+        int leftMargin=0;
+        int topMargin=10;
+        int rightMargin=0;
+        int bottomMargin=10;
+
+        tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
         Bundle b = getIntent().getExtras();
         int noOfPlayers = 0;
@@ -68,7 +80,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
             playersList = new TextView[noOfPlayers];
             currentValueList = new EditText[noOfPlayers];
-            playersTotalValues = new Button[noOfPlayers];
+            playersTotalValues = new TextView[noOfPlayers];
             playersPreviousValues = new TextView[noOfPlayers];
             winnerImages = new ImageView[noOfPlayers];
 
@@ -81,7 +93,35 @@ public class CurrentGameScorecard extends ActionBarActivity {
             }else {
                 tvLimit.setText("( No Max Value Set )");
             }
-            tvLimit.setTextAppearance(getApplicationContext(),R.style.boldText);
+            tvLimit.setTextAppearance(getApplicationContext(), R.style.boldText);
+
+/*            TableRow trLables = new TableRow(getApplicationContext());
+
+            playerNameLabel = new TextView(getApplicationContext());
+            playerNameLabel.setText("PlayerName");
+            playerNameLabel.setTextSize(20);
+            playerNameLabel.setTextColor(Color.rgb(51, 181, 229));
+            trLables.addView(playerNameLabel);
+
+            enterScoreLabel = new TextView(getApplicationContext());
+            enterScoreLabel.setText("EnterScore");
+            enterScoreLabel.setTextSize(20);
+            enterScoreLabel.setTextColor(Color.rgb(51, 181, 229));
+            trLables.addView(enterScoreLabel);
+
+            previousScoreLabel = new TextView(getApplicationContext());
+            previousScoreLabel.setText("PreviousScore");
+            previousScoreLabel.setTextSize(20);
+            previousScoreLabel.setTextColor(Color.rgb(51, 181, 229));
+            trLables.addView(previousScoreLabel);
+
+            totalScoreLabel = new TextView(getApplicationContext());
+            totalScoreLabel.setText("TotalScore");
+            totalScoreLabel.setTextSize(20);
+            totalScoreLabel.setTextColor(Color.rgb(51, 181, 229));
+            trLables.addView(totalScoreLabel);
+
+            scoreTable.addView(trLables);*/
 
             for(int i = 0; i< noOfPlayers; i++){
 
@@ -89,7 +129,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
                 playersList[i] = new TextView(getApplicationContext());
                 currentValueList[i] = new EditText(getApplicationContext());
-                playersTotalValues[i] = new Button(getApplicationContext());
+                playersTotalValues[i] = new TextView(getApplicationContext());
                 playersPreviousValues[i] = new TextView(getApplicationContext());
                 winnerImages[i] = new ImageView(getApplicationContext());
 
@@ -97,10 +137,13 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 playersList[i].setTextSize(20);
                 playersList[i].setTextColor(Color.BLACK);
                 playersList[i].setId(i);
+                playersList[i].setGravity(Gravity.LEFT);
 
                 currentValueList[i].setInputType(InputType.TYPE_CLASS_NUMBER);
-                currentValueList[i].setTextColor(Color.BLACK);
-                currentValueList[i].setSelectAllOnFocus(true);
+                currentValueList[i].setTextAppearance(this, R.style.EditTextAppTheme);
+                currentValueList[i].setWidth(60);
+                currentValueList[i].setBackgroundColor(Color.rgb(253, 253, 253));
+                currentValueList[i].setFocusable(true);
                 currentValueList[i].setGravity(Gravity.LEFT);
 
                 currentValueList[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -125,7 +168,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 playersTotalValues[i].setTextColor(Color.BLACK);
                 playersTotalValues[i].setGravity(Gravity.CENTER);
 
-                playersTotalValues[i].setBackgroundColor(android.R.drawable.btn_default);
+                //playersTotalValues[i].setBackgroundColor(android.R.drawable.btn_default);
 
                 tr.addView(winnerImages[i]);
                 tr.addView(playersList[i]);
@@ -134,6 +177,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 tr.addView(playersTotalValues[i]);
                 tr.setBackgroundResource(android.R.color.transparent);
                 tr.setVerticalGravity(Gravity.CENTER_VERTICAL);
+                tr.setLayoutParams(tableRowParams);
                 scoreTable.addView(tr);
             }
 

@@ -22,6 +22,7 @@ public class StartupScreen extends ActionBarActivity {
         Button newGameButton = (Button) findViewById(R.id.newGame);
         Button historyButton = (Button) findViewById(R.id.history);
 
+
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +40,15 @@ public class StartupScreen extends ActionBarActivity {
 
             }
         });
+
+        /*homePageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HomePage.class);
+                startActivity(intent);
+            }
+        });
+*/
     }
 
 

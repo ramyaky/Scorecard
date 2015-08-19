@@ -1,7 +1,6 @@
 package com.example.ramyaky.scorecard;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,23 +8,17 @@ import android.graphics.Color;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,27 +29,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class GameHistory extends ActionBarActivity {
+public class HomePage extends ActionBarActivity {
 
     ListView gameHistoryListView;
     scoreCardAdapter gameRecordListAdapter;
-    TextView contentsString;
-    boolean isSearch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_history);
+        setContentView(R.layout.activity_home_page);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         gameRecordListAdapter = new scoreCardAdapter();
         gameHistoryListView = (ListView) findViewById(R.id.listView);
         gameHistoryListView.setAdapter(gameRecordListAdapter);
-
-        if(gameRecordListAdapter.getCount() == 0) {
-            contentsString = (TextView) findViewById(R.id.contentString);
-            contentsString.setVisibility(View.VISIBLE);
-        }
         gameHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,7 +96,6 @@ public class GameHistory extends ActionBarActivity {
 
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-
                 return true;
             }
 
@@ -140,7 +125,7 @@ public class GameHistory extends ActionBarActivity {
                         return true;
 
                     case R.id.delete:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(GameHistory.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HomePage.this);
                         builder.setMessage("Do you want to delete selected items ?");
 
                         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -179,8 +164,6 @@ public class GameHistory extends ActionBarActivity {
     public class scoreCardAdapter extends BaseAdapter{
 
         ArrayList<GameObject> gameRecordslist = getDataforListViews();
-        ArrayList<GameObject> searchListCopy = new ArrayList<GameObject>(gameRecordslist);
-
         private SparseBooleanArray selectedItemsArray = new SparseBooleanArray();
 
         public GameObject getGameHistoryObject(int position){
@@ -216,28 +199,6 @@ public class GameHistory extends ActionBarActivity {
 
         }
 
-        public void filter(String s) {
-            String inputChar = s.toLowerCase();
-            gameRecordslist.clear();
-            if(inputChar.length() == 0 ) {
-                gameRecordslist.addAll(searchListCopy);
-            }else {
-                for(int i =0; i<searchListCopy.size(); i++){
-                    try{
-                        String gameNameString = searchListCopy.get(i).getGameName().toLowerCase();
-                        if(gameNameString.startsWith(inputChar)) {
-
-                            gameRecordslist.add(searchListCopy.get(i));
-                        }
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            notifyDataSetChanged();
-
-        }
-
         public void remove(GameObject object) {
             SQLiteDatabaseHandler dbobj = new SQLiteDatabaseHandler(getApplicationContext());
             dbobj.deleteRecord(object.getGameStartTime(), object.getGameName());
@@ -268,7 +229,7 @@ public class GameHistory extends ActionBarActivity {
             try {
 
                 if (convertView == null) {
-                    LayoutInflater layoutInflater = (LayoutInflater) GameHistory.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    LayoutInflater layoutInflater = (LayoutInflater) HomePage.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     convertView = layoutInflater.inflate(R.layout.game_record, parent, false);
                 }
                 // setting the background color trasnparent.
@@ -364,26 +325,9 @@ public class GameHistory extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_game_history, menu);
-
-        // Associate searchable configuration with the SearchView
-        /*SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.searchHistory).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));*/
-
-
-
-
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return true;
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -399,30 +343,6 @@ public class GameHistory extends ActionBarActivity {
             case R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-
-            case R.id.searchHistory:
-                SearchView searchView = (SearchView) item.getActionView();
-                searchView.setIconifiedByDefault(false);
-                searchView.setFocusable(true);
-                searchView.setIconified(false);
-                searchView.requestFocusFromTouch();
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        gameRecordListAdapter.filter(newText);
-                        return true;
-                    }
-                });
-
-                return true;
-
-
         }
         int id = item.getItemId();
 
@@ -433,24 +353,6 @@ public class GameHistory extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private TextWatcher filterTextWatcher = new TextWatcher()
-    {
-        public void afterTextChanged(Editable s)
-        {
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
-            gameRecordListAdapter.filter(s.toString());
-
-        }
-    };
-
 
 
 

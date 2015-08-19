@@ -26,8 +26,9 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:text="@string/limit_score_button"
         android:id="@+id/limitButton"
         android:layout_marginTop="25dp"

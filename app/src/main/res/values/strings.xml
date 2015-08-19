@@ -37,10 +37,12 @@
     <string name="update_score_button">Update Score</string>
     <string name="view_details_button">View Details</string>
     <string name="player_name_label">Player\nName</string>
-    <string name="enter_score_label">Enter\nScore</string>
+    <string name="enter_score_label">Current\nScore</string>
     <string name="previous_score_label">Previous\nScore</string>
     <string name="total_score_label">Total\nScore</string>
     <string name="clone_game">Clone Game</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="history_content_string">You haven\'t played any games yet.</string>
 
 </resources>
 
