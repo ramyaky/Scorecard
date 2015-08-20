@@ -27,6 +27,9 @@
         <activity
             android:name=".CurrentGameScorecard"
             android:label="@string/title_activity_current_game_scorecard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ramyaky.scorecard.GameHistory" />
         </activity>
         <activity
             android:name=".GameHistory"

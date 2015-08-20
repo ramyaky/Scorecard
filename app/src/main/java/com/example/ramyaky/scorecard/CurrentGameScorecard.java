@@ -3,6 +3,7 @@ package com.example.ramyaky.scorecard;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -94,34 +95,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 tvLimit.setText("( No Max Value Set )");
             }
             tvLimit.setTextAppearance(getApplicationContext(), R.style.boldText);
-
-/*            TableRow trLables = new TableRow(getApplicationContext());
-
-            playerNameLabel = new TextView(getApplicationContext());
-            playerNameLabel.setText("PlayerName");
-            playerNameLabel.setTextSize(20);
-            playerNameLabel.setTextColor(Color.rgb(51, 181, 229));
-            trLables.addView(playerNameLabel);
-
-            enterScoreLabel = new TextView(getApplicationContext());
-            enterScoreLabel.setText("EnterScore");
-            enterScoreLabel.setTextSize(20);
-            enterScoreLabel.setTextColor(Color.rgb(51, 181, 229));
-            trLables.addView(enterScoreLabel);
-
-            previousScoreLabel = new TextView(getApplicationContext());
-            previousScoreLabel.setText("PreviousScore");
-            previousScoreLabel.setTextSize(20);
-            previousScoreLabel.setTextColor(Color.rgb(51, 181, 229));
-            trLables.addView(previousScoreLabel);
-
-            totalScoreLabel = new TextView(getApplicationContext());
-            totalScoreLabel.setText("TotalScore");
-            totalScoreLabel.setTextSize(20);
-            totalScoreLabel.setTextColor(Color.rgb(51, 181, 229));
-            trLables.addView(totalScoreLabel);
-
-            scoreTable.addView(trLables);*/
 
             for(int i = 0; i< noOfPlayers; i++){
 
@@ -367,6 +340,16 @@ public class CurrentGameScorecard extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if( id == R.id.home) {
+            Intent intent = new Intent(getApplicationContext(), GameHistory.class);
+            //startActivity(intent);
+            NavUtils.navigateUpTo(this, intent);
+        }else if (id == R.id.action_home) {
+            Intent intent = new Intent(getApplicationContext(), StartupScreen.class);
+            startActivity(intent);
+        }else if (id == R.id.action_history) {
+            Intent intent = new Intent(getApplicationContext(), GameHistory.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,6 +1,7 @@
 package com.example.ramyaky.scorecard;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -72,6 +73,12 @@ public class GameContinuity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if (id == R.id.action_home) {
+            Intent intent = new Intent(getApplicationContext(), StartupScreen.class);
+            startActivity(intent);
+        }else if (id == R.id.action_history) {
+            Intent intent = new Intent(getApplicationContext(), GameHistory.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

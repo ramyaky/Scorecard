@@ -217,20 +217,27 @@ public class GameHistory extends ActionBarActivity {
         }
 
         public void filter(String s) {
+
             searchContentString = (TextView) findViewById(R.id.searchContentString);
+            //searchContentString.setVisibility(View.INVISIBLE);
             String inputChar = s.toLowerCase();
             gameRecordslist.clear();
             if(inputChar.length() == 0 ) {
                 gameRecordslist.addAll(searchListCopy);
             }else {
+
                 for(int i =0; i<searchListCopy.size(); i++){
+
                     try{
                         String gameNameString = searchListCopy.get(i).getGameName().toLowerCase();
                         if(gameNameString.startsWith(inputChar)) {
-                            searchContentString.setVisibility(View.INVISIBLE);
+
                             gameRecordslist.add(searchListCopy.get(i));
-                        }else {
+                        }
+                        if(gameRecordslist.size() == 0) {
                             searchContentString.setVisibility(View.VISIBLE);
+                        }else {
+                            searchContentString.setVisibility(View.INVISIBLE);
                         }
                     }catch (Exception e) {
                         e.printStackTrace();

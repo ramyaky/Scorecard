@@ -1,5 +1,6 @@
 package com.example.ramyaky.scorecard;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,10 @@ public class GameDetails extends ActionBarActivity {
         setContentView(R.layout.activity_game_details);
         if (savedInstanceState == null) {
 
+            ActionBar actionBar = getSupportActionBar();
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("" + getIntent().getExtras().getString("gameName") + " Scorecard");
+
             DetailsFragment fragment = new DetailsFragment();
             fragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
@@ -54,6 +59,12 @@ public class GameDetails extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if (id == R.id.action_home) {
+            Intent intent = new Intent(getApplicationContext(), StartupScreen.class);
+            startActivity(intent);
+        }else if (id == R.id.action_history) {
+            Intent intent = new Intent(getApplicationContext(), GameHistory.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
