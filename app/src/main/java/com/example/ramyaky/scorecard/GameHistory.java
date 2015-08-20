@@ -40,7 +40,7 @@ public class GameHistory extends ActionBarActivity {
 
     ListView gameHistoryListView;
     scoreCardAdapter gameRecordListAdapter;
-    TextView contentsString;
+    TextView contentsString, searchContentString;
     boolean isSearch = false;
 
     @Override
@@ -205,7 +205,7 @@ public class GameHistory extends ActionBarActivity {
 
         public void updateSelectionArray(int position, boolean value) {
             if(value) {
-                selectedItemsArray.put(position,value);
+                selectedItemsArray.put(position, value);
 
             }else {
                 gameHistoryListView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -217,6 +217,7 @@ public class GameHistory extends ActionBarActivity {
         }
 
         public void filter(String s) {
+            searchContentString = (TextView) findViewById(R.id.searchContentString);
             String inputChar = s.toLowerCase();
             gameRecordslist.clear();
             if(inputChar.length() == 0 ) {
@@ -226,8 +227,10 @@ public class GameHistory extends ActionBarActivity {
                     try{
                         String gameNameString = searchListCopy.get(i).getGameName().toLowerCase();
                         if(gameNameString.startsWith(inputChar)) {
-
+                            searchContentString.setVisibility(View.INVISIBLE);
                             gameRecordslist.add(searchListCopy.get(i));
+                        }else {
+                            searchContentString.setVisibility(View.VISIBLE);
                         }
                     }catch (Exception e) {
                         e.printStackTrace();
@@ -380,6 +383,12 @@ public class GameHistory extends ActionBarActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        onSupportNavigateUp();
+    }
+
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         return true;
@@ -416,6 +425,14 @@ public class GameHistory extends ActionBarActivity {
                     @Override
                     public boolean onQueryTextChange(String newText) {
                         gameRecordListAdapter.filter(newText);
+                        return true;
+                    }
+                });
+
+                searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                    @Override
+                    public boolean onClose() {
+                        gameRecordListAdapter.refreshDataSet();
                         return true;
                     }
                 });

@@ -43,6 +43,7 @@
     <string name="clone_game">Clone Game</string>
     <string name="title_activity_home_page">HomePage</string>
     <string name="history_content_string">You haven\'t played any games yet.</string>
+    <string name="search_content_string">No matche(s) found</string>
 
 </resources>
 
