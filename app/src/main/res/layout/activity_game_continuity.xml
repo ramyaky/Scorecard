@@ -14,7 +14,7 @@
         android:layout_marginBottom="20dp">
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="60pt"
+        android:layout_width="70pt"
         android:layout_height="wrap_content"
         android:text="@string/resume_game_button"
         android:textColor="#FFFFFF"
@@ -25,7 +25,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="60pt"
+        android:layout_width="70pt"
         android:layout_height="wrap_content"
         android:text="@string/clone_game"
         android:textColor="#FFFFFF"

@@ -16,7 +16,6 @@ public class StartupScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup_screen);
-
         final Context context = this;
 
         Button newGameButton = (Button) findViewById(R.id.newGame);
@@ -40,15 +39,6 @@ public class StartupScreen extends ActionBarActivity {
 
             }
         });
-
-        /*homePageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HomePage.class);
-                startActivity(intent);
-            }
-        });
-*/
     }
 
 
@@ -67,10 +57,14 @@ public class StartupScreen extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(id == R.id.action_about) {
+            Intent intent = new Intent(getApplicationContext(), AboutGame.class);
+            startActivity(intent);
         }
-
+        if(id == R.id.action_help) {
+            Intent intent = new Intent(getApplicationContext(), Help.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 }

@@ -52,6 +52,7 @@ public class GameHistory extends ActionBarActivity {
         gameRecordListAdapter = new scoreCardAdapter();
         gameHistoryListView = (ListView) findViewById(R.id.listView);
         gameHistoryListView.setAdapter(gameRecordListAdapter);
+        searchContentString = (TextView) findViewById(R.id.searchContentString);
 
         if(gameRecordListAdapter.getCount() == 0) {
             contentsString = (TextView) findViewById(R.id.contentString);
@@ -119,11 +120,6 @@ public class GameHistory extends ActionBarActivity {
                 Menu menu = mode.getMenu();
                 switch (item.getItemId()) {
                     case R.id.selectAll:
-                        /*gameRecordListAdapter.removeSelection();
-                        for(int k=0; k<gameRecordListAdapter.getCount(); k++) {
-                            gameHistoryListView.setItemChecked(k, true);
-                            gameRecordListAdapter.updateSelectionArray(k, true);
-                        }*/
                         markSelectionAllItems();
                         mode.setSubtitle("" + gameRecordListAdapter.getSelectedIdsCount() + " items selected");
 
@@ -217,9 +213,7 @@ public class GameHistory extends ActionBarActivity {
         }
 
         public void filter(String s) {
-
-            searchContentString = (TextView) findViewById(R.id.searchContentString);
-            //searchContentString.setVisibility(View.INVISIBLE);
+            searchContentString.setVisibility(View.INVISIBLE);
             String inputChar = s.toLowerCase();
             gameRecordslist.clear();
             if(inputChar.length() == 0 ) {
@@ -374,18 +368,6 @@ public class GameHistory extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_game_history, menu);
-
-        // Associate searchable configuration with the SearchView
-        /*SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.searchHistory).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));*/
-
-
-
-
         return true;
     }
 
@@ -436,46 +418,11 @@ public class GameHistory extends ActionBarActivity {
                     }
                 });
 
-                searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                    @Override
-                    public boolean onClose() {
-                        gameRecordListAdapter.refreshDataSet();
-                        return true;
-                    }
-                });
-
                 return true;
 
 
         }
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
-
-    private TextWatcher filterTextWatcher = new TextWatcher()
-    {
-        public void afterTextChanged(Editable s)
-        {
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
-            gameRecordListAdapter.filter(s.toString());
-
-        }
-    };
-
-
-
-
 }

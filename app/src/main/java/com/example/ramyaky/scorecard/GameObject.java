@@ -35,7 +35,7 @@ public class GameObject implements Parcelable{
         this._gameStartTime = gStartTime;
         this._gameType = gType;
         this._gameIsEnd = gIsEnd;
-       // this._gameEndTime = "";
+        // this._gameEndTime = "";
         //this._gamePlayerGroups = "";
         this._gamePlayers = gPlayers;
         this._gameScores = gScores;

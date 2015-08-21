@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -40,19 +41,18 @@ public class StartFreshGame extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_fresh_game);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(savedInstanceState!=null) {
+            onRestoreInstanceState(savedInstanceState);
+        }
 
         final EditText etGameName = (EditText) findViewById(R.id.etGameName);
-        //final TextView tv = (TextView) findViewById(R.id.tvWinMode);
-
         final EditText etPlayerName = (EditText) findViewById(R.id.etPlayerName);
         final Button addPlayerNameButton = (Button) findViewById(R.id.addPlayerButton);
         final LinearLayout mainLayout = (LinearLayout) findViewById(R.id.displayPlayers);
         winModeGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
-
-
         Bundle b = getIntent().getExtras();
+        // if isClone not set
         if(b.getInt("isClone") != 1) {
             winModeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -78,7 +78,7 @@ public class StartFreshGame extends ActionBarActivity {
 
             });
         }
-        else {
+        else {  // if isClone set
             GameObject cloneObject = b.getParcelable("GameObject");
             etGameName.setText(cloneObject.getGameName());
             RadioButton maxButton = (RadioButton) findViewById(R.id.Max);
@@ -90,9 +90,7 @@ public class StartFreshGame extends ActionBarActivity {
             }
             gameLimitScore = cloneObject.getGameMaxLimit();
             final ArrayList<String> playersList = new ArrayList<String>(cloneObject.getGamePlayers());
-            /*View subView = getLayoutInflater().inflate(R.layout.player_name, null);
-            TextView subViewPlayerName = (TextView) subView.findViewById(R.id.playerName);
-            ImageView subViewDeletePlayer = (ImageView) subView.findViewById(R.id.remove);*/
+
             mainLayout.removeAllViews();
 
             for(int i=0; i<playersList.size(); i++) {
@@ -186,7 +184,7 @@ public class StartFreshGame extends ActionBarActivity {
                         }
                         scoresList.add(scoresJsonObject.toString());
                         totalScores = scoresList;
-                        System.out.println("Printing my mode string : " + winMode.getText().toString());
+                        //System.out.println("Printing my mode string : " + winMode.getText().toString());
 
                         GameObject myGameObject = new GameObject(gameName.getText().toString(), ts.toString(), winMode.getText().toString(), gameLimitScore, false, namesList, scoresList, totalScores, winnersList);
 
@@ -229,10 +227,8 @@ public class StartFreshGame extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
+        
         return super.onOptionsItemSelected(item);
     }
+
 }

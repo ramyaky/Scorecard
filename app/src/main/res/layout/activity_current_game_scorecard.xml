@@ -65,7 +65,7 @@
         android:layout_alignParentBottom="true"
          >
     <Button
-        android:layout_width="60pt"
+        android:layout_width="70pt"
         android:layout_height="wrap_content"
         android:text="@string/update_score_button"
         android:textColor="#FFFFFF"
@@ -77,7 +77,7 @@
          />
 
     <Button
-        android:layout_width="60pt"
+        android:layout_width="70pt"
         android:layout_height="wrap_content"
         android:text="@string/view_details_button"
         android:padding="7dp"

@@ -46,5 +46,11 @@
     <string name="search_content_string">No matche(s) found</string>
     <string name="action_home">Home</string>
     <string name="action_history"> History</string>
+    <string name="about"> About </string>
+    <string name="title_activity_about_game">About Scorecard</string>
+    <string name="about_content"> hjsdgalkjdlhgjkrthgktrj </string>
+    <string name="help"> Help </string>
+    <string name="title_activity_help">Help</string>
+
 </resources>
 
