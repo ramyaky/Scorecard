@@ -14,10 +14,11 @@
         android:layout_marginBottom="20dp">
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="70pt"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/resume_game_button"
         android:textColor="#FFFFFF"
+        android:layout_weight="1"
         android:id="@+id/resumeButton"
         android:padding="10dp"
         android:background="@drawable/mybuttonstyle"
@@ -25,10 +26,11 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="70pt"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:text="@string/clone_game"
         android:textColor="#FFFFFF"
+        android:layout_weight="1"
         android:layout_marginLeft="30dp"
         android:padding="10dp"
         android:background="@drawable/mybuttonstyle"

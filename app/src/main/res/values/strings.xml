@@ -27,20 +27,20 @@
     <string name="winning_mode_label">Winning Mode</string>
     <string name="max">Max</string>
     <string name="min">Min</string>
-    <string name="enter_player_name">Enter Player Name</string>
+    <string name="enter_player_name">Player Name</string>
     <string name="add">ADD</string>
     <string name="done">Done</string>
-    <string name="resume_game_button">Resume Game</string>
+    <string name="resume_game_button">Resume</string>
     <string name="heading_hint">Heading</string>
     <string name="current_round_hint">Current Round</string>
     <string name="show_limit_hint">Show Limit</string>
-    <string name="update_score_button">Update Score</string>
-    <string name="view_details_button">View Details</string>
+    <string name="update_score_button">Update</string>
+    <string name="view_details_button">View</string>
     <string name="player_name_label">Player\nName</string>
     <string name="enter_score_label">Current\nScore</string>
     <string name="previous_score_label">Previous\nScore</string>
     <string name="total_score_label">Total\nScore</string>
-    <string name="clone_game">Clone Game</string>
+    <string name="clone_game">Clone</string>
     <string name="title_activity_home_page">HomePage</string>
     <string name="history_content_string">You haven\'t played any games yet.</string>
     <string name="search_content_string">No matche(s) found</string>
@@ -48,7 +48,7 @@
     <string name="action_history"> History</string>
     <string name="about"> About </string>
     <string name="title_activity_about_game">About Scorecard</string>
-    <string name="about_content"> hjsdgalkjdlhgjkrthgktrj </string>
+    <string name="about_content">  </string>
     <string name="help"> Help </string>
     <string name="title_activity_help">Help</string>
 
