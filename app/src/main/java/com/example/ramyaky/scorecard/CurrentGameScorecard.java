@@ -1,6 +1,7 @@
 package com.example.ramyaky.scorecard;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -19,6 +20,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.json.JSONObject;
+
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class CurrentGameScorecard extends ActionBarActivity {
@@ -61,7 +64,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
         gameParcelableObject = b.getParcelable("GameObject");
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("" + gameParcelableObject.getGameName() + " Scorecard");
+        actionBar.setTitle("" + gameParcelableObject.getGameName());
 
 
         try {
@@ -339,4 +342,5 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

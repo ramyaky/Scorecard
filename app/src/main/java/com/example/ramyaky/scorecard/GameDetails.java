@@ -31,7 +31,7 @@ public class GameDetails extends ActionBarActivity {
 
             ActionBar actionBar = getSupportActionBar();
             //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("" + getIntent().getExtras().getString("gameName") + " Scorecard");
+            actionBar.setTitle("" + getIntent().getExtras().getString("gameName"));
 
             DetailsFragment fragment = new DetailsFragment();
             fragment.setArguments(getIntent().getExtras());

@@ -21,7 +21,7 @@ public class GameContinuity extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("" + bundle.getString("gameName") + " Scorecard");
+        actionBar.setTitle("" + bundle.getString("gameName"));
 
         if (savedInstanceState == null) {
 

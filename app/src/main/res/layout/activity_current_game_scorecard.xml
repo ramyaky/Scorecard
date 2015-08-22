@@ -7,141 +7,146 @@
 
     tools:context="com.example.ramyaky.scorecard.CurrentGameScorecard">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="@string/heading_hint"
-        android:id="@+id/round"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="@string/show_limit_hint"
-            android:id="@+id/showLimit"
-            android:textColor="#5faed9"
-            android:layout_below="@+id/round"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            />
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
-        android:layout_below="@+id/linearLayout"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
         android:isScrollContainer="false"
-        android:layout_above="@+id/ll3">
-
-        <LinearLayout
-            android:id="@+id/linear_layout"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:stretchColumns="*"
-                android:id="@+id/scoreTable">
-            </TableLayout>
-        </LinearLayout>
-    </ScrollView>
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/ll3"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true"
-         >
-    <Button
-        android:layout_width="60pt"
-        android:layout_height="wrap_content"
-        android:text="@string/update_score_button"
-        android:textColor="#FFFFFF"
-        android:id="@+id/doneEntering"
-        android:layout_gravity="center_horizontal"
-        android:padding="7dp"
-        android:background="@drawable/mybuttonstyle"
-
-         />
-
-    <Button
-        android:layout_width="60pt"
-        android:layout_height="wrap_content"
-        android:text="@string/view_details_button"
-        android:padding="7dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/mybuttonstyle"
-        android:id="@+id/viewDetails"
-        android:layout_gravity="center_horizontal"
-
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-         />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
-        android:layout_below="@+id/showLimit"
-        android:layout_marginTop="20dp"
         >
 
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/player_name_label"
-            android:layout_weight="7"
-            android:textColor="#33b5e5"
-            android:id="@+id/textView4"
-            android:gravity="center"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:hint="@string/heading_hint"
+                android:id="@+id/round"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/enter_score_label"
-            android:layout_weight="3"
-            android:textColor="#33b5e5"
-            android:id="@+id/textView5"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/previous_score_label"
-            android:textColor="#33b5e5"
-            android:id="@+id/textView6"
-            android:layout_weight="2"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/total_score_label"
-            android:id="@+id/textView7"
-            android:layout_weight="3"
-            android:textColor="#33b5e5"
-            android:gravity="center"/>
-
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:hint="@string/show_limit_hint"
+                android:id="@+id/showLimit"
+                android:textColor="#5faed9"
+                android:layout_below="@+id/round"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                />
 
 
+
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:orientation="vertical"
+                android:layout_below="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:stretchColumns="*"
+                    android:id="@+id/scoreTable">
+                </TableLayout>
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/linear_layout"
+                android:id="@+id/ll3"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentBottom="true"
+                >
+                <Button
+                    android:layout_width="60pt"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_score_button"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/doneEntering"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="7dp"
+                    android:background="@drawable/mybuttonstyle"
+
+                    />
+
+                <Button
+                    android:layout_width="60pt"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_details_button"
+                    android:padding="7dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/mybuttonstyle"
+                    android:id="@+id/viewDetails"
+                    android:layout_gravity="center_horizontal"
+
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout"
+                android:layout_below="@+id/showLimit"
+                android:layout_marginTop="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/player_name_label"
+                    android:layout_weight="7"
+                    android:textColor="#33b5e5"
+                    android:id="@+id/textView4"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/enter_score_label"
+                    android:layout_weight="3"
+                    android:textColor="#33b5e5"
+                    android:id="@+id/textView5"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/previous_score_label"
+                    android:textColor="#33b5e5"
+                    android:id="@+id/textView6"
+                    android:layout_weight="2"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/total_score_label"
+                    android:id="@+id/textView7"
+                    android:layout_weight="3"
+                    android:textColor="#33b5e5"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
