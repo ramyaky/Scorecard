@@ -1,4 +1,4 @@
-package com.example.ramyaky.scorecard;
+package com.aredevelopments.scorecard;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
