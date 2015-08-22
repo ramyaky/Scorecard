@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ramyaky.scorecard" >
+    package="com.aredevelopments.scorecard" >
 
     <application
         android:allowBackup="true"
@@ -27,7 +27,7 @@
             android:label="@string/title_activity_start_fresh_game" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ramyaky.scorecard.StartupScreen" />
+                android:value="com.aredevelopments.scorecard.StartupScreen" />
         </activity>
         <activity
             android:name=".CurrentGameScorecard"
@@ -35,7 +35,7 @@
             android:label="@string/title_activity_current_game_scorecard" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ramyaky.scorecard.GameHistory" />
+                android:value="com.aredevelopments.scorecard.GameHistory" />
         </activity>
         <activity
             android:name=".GameHistory"
@@ -43,7 +43,7 @@
             android:label="@string/title_activity_game_history" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ramyaky.scorecard.StartupScreen" />
+                android:value="com.aredevelopments.scorecard.StartupScreen" />
         </activity>
         <activity
             android:name=".GameDetails"
@@ -54,21 +54,21 @@
             android:label="@string/title_activity_game_continuity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ramyaky.scorecard.GameHistory" />
+                android:value="com.aredevelopments.scorecard.GameHistory" />
         </activity>
         <activity
             android:name=".AboutGame"
             android:label="@string/title_activity_about_game" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ramyaky.scorecard.StartupScreen" />
+                android:value="com.aredevelopments.scorecard.StartupScreen" />
         </activity>
         <activity
             android:name=".Help"
             android:label="@string/title_activity_help" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ramyaky.scorecard.StartupScreen" />
+                android:value="com.aredevelopments.scorecard.StartupScreen" />
         </activity>
     </application>
 
