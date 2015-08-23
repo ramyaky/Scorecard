@@ -46,7 +46,7 @@
                 android:layout_marginTop="20dp"
                 android:id="@+id/t2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Scorecard is a handy utility to store your scores in a game (rummy, hearts etc )."/>
+                android:text="Scorecard is a handy utility to store your scores in a game (rummy, hearts, etc)"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -174,7 +174,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Min/Max mode which defines winner."/>
+                    android:text="Min/Max mode which defines winner"/>
             </LinearLayout>
 
             <LinearLayout

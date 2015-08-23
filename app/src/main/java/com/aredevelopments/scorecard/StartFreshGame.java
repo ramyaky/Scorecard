@@ -64,14 +64,20 @@ public class StartFreshGame extends ActionBarActivity {
                         dialog.setTitle("Set Game Maximum Limit");
                         final EditText limitValueEditText = (EditText) dialog.findViewById(R.id.limitValue);
                         Button limitValueButton = (Button) dialog.findViewById(R.id.limitButton);
+
                         limitValueButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 gameLimitScore = Integer.parseInt(limitValueEditText.getText().toString());
-                                dialog.dismiss();
-                                Toast.makeText(StartFreshGame.this, "Limit is : " + gameLimitScore, Toast.LENGTH_SHORT).show();
+                                if (gameLimitScore > 100000000) {
+                                    limitValueEditText.setError("Max limit is 99999999");
+                                } else {
+                                    dialog.dismiss();
+                                    Toast.makeText(StartFreshGame.this, "Limit is : " + gameLimitScore, Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
+
                         dialog.show();
                     }
                 }
@@ -122,9 +128,6 @@ public class StartFreshGame extends ActionBarActivity {
                     if (name.length() != 0) {
                         names.put(name, 1);
                         flag = true;
-                    } else {
-                        etPlayerName.setError("Name should be unique");
-                        flag = false;
                     }
                 }
                 if (flag) {
@@ -144,7 +147,11 @@ public class StartFreshGame extends ActionBarActivity {
                         }
                     });
                 } else {
-                    etPlayerName.setError("Player Name Required");
+                    if(name.length() == 0) {
+                        etPlayerName.setError("Player Name Required");
+                    }else {
+                        etPlayerName.setError("Name should be unique");
+                    }
                 }
             }
 

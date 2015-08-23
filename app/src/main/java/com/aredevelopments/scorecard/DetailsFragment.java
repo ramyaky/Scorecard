@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class DetailsFragment extends Fragment {
 
+    String knockOutString = "OUT";
     public DetailsFragment() {
     }
 
@@ -94,14 +95,23 @@ public class DetailsFragment extends Fragment {
                 roundTextViews[i].setGravity(Gravity.CENTER_HORIZONTAL);
                 tr.addView(roundTextViews[i]);
 
+                // printing scores in tablular form
+
                 JSONObject scoreObject = new JSONObject(scoresList.get(i+1));
 
                 for(int j=0; j<playersList.size(); j++) {
+
                     scoreTextViews[j] = new TextView(getActivity());
-                    scoreTextViews[j].setText("" + scoreObject.getString(playersList.get(j)));
+
                     scoreTextViews[j].setPadding(20,20,20,20);
                     scoreTextViews[j].setGravity(Gravity.CENTER_HORIZONTAL);
-                    scoreTextViews[j].setTextAppearance(getActivity(), R.style.playerScoreText);
+                    if(scoreObject.getString(playersList.get(j)).equalsIgnoreCase(knockOutString)) {
+                        scoreTextViews[j].setText("" + scoreObject.getString(playersList.get(j)).toUpperCase());
+                        scoreTextViews[j].setTextColor(Color.RED);
+                    }else {
+                        scoreTextViews[j].setText("" + scoreObject.getString(playersList.get(j)));
+                        scoreTextViews[j].setTextAppearance(getActivity(), R.style.playerScoreText);
+                    }
                     tr.addView(scoreTextViews[j]);
                 }
                 detailsTable.addView(tr);

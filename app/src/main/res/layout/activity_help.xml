@@ -96,7 +96,7 @@
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Select game mode [min/max].If mode is Min, enter the maximun limit value the player can score before he loose the game." />
+                        android:text="Select game mode [min/max].If mode is 'min', enter the maximun 'limit' value the player can score before the player looses the game." />
                 </TableRow>
                 <TableRow>
                     <ImageView
@@ -198,7 +198,7 @@
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Min(Limit):You need set a limit for min mode. Limit is used for eliminating player crossing limit. e.g.: rummy , where player is eliminated after 101 or 201" />
+                        android:text="Min(Limit):You need set a limit for min mode. Limit is used for eliminating player crossing limit. e.g.: rummy, where player is eliminated after 101 or 201" />
                 </TableRow>
 
             </TableLayout>

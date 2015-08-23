@@ -20,6 +20,7 @@
         android:id="@+id/limitValue"
         android:layout_gravity="end"
         android:ems="20"
+        android:maxLength="8"
         android:layout_toEndOf="@+id/limitLabel"
         android:layout_toRightOf="@+id/limitLabel"
         android:layout_alignBottom="@+id/limitLabel" />

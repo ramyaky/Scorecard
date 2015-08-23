@@ -11,7 +11,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
-
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:isScrollContainer="false"
@@ -26,21 +25,22 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="@string/heading_hint"
                 android:id="@+id/round"
+                android:textColor="@color/apptheme_color"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
-            <TextView
+           <!-- <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:hint="@string/show_limit_hint"
+                android:visibility="invisible"
                 android:id="@+id/showLimit"
                 android:textColor="#5faed9"
                 android:layout_below="@+id/round"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                />
-
+                />-->
 
 
             <LinearLayout
@@ -67,7 +67,7 @@
                 android:layout_below="@+id/linear_layout"
                 android:id="@+id/ll3"
                 android:layout_marginTop="10dp"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentBottom="false"
                 >
                 <Button
                     android:layout_width="60pt"
@@ -102,7 +102,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/linearLayout"
-                android:layout_below="@+id/showLimit"
+                android:layout_below="@+id/round"
                 android:layout_marginTop="20dp"
                 >
 
@@ -147,6 +147,25 @@
                     android:gravity="center"/>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Note: Allowed current score should not exceed 5 digits"
+                android:textColor="#000000"
+                android:id="@+id/note"
+                android:hint="note"
+                android:layout_below="@+id/ll3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                />
         </RelativeLayout>
+
+
+
     </ScrollView>
-</RelativeLayout>
+
+
+
+    </RelativeLayout>

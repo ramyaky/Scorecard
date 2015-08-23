@@ -7,7 +7,11 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,6 +39,9 @@ public class CurrentGameScorecard extends ActionBarActivity {
     public ImageView[] winnerImages;
     public GameObject gameParcelableObject;
     int gameLimitValue;
+    StyleSpan styleSpan;
+    RelativeLayout.LayoutParams params;
+    String knockOutString = "OUT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +50,13 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
         //TextView tvHeading = (TextView) findViewById(R.id.heading);
         TextView tvRound = (TextView) findViewById(R.id.round);
-        TextView tvLimit = (TextView) findViewById(R.id.showLimit);
+        //TextView tvLimit = (TextView) findViewById(R.id.showLimit);
         TableLayout scoreTable = (TableLayout) findViewById(R.id.scoreTable);
         final Button doneEntering = (Button) findViewById(R.id.doneEntering);
         final Button viewDetails = (Button) findViewById(R.id.viewDetails);
-        //final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
         TableLayout.LayoutParams tableRowParams=
                 new TableLayout.LayoutParams
                         (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
@@ -69,7 +79,6 @@ public class CurrentGameScorecard extends ActionBarActivity {
 
         try {
             gameLimitValue = gameParcelableObject.getGameMaxLimit();
-            //System.out.println("My limit value after resuming immediate is : " + gameLimitValue);
             String gameName = gameParcelableObject.getGameName();
             ArrayList<String> namesList = gameParcelableObject.getGamePlayers();
             final ArrayList<String> scoresList = gameParcelableObject.getGameScores();
@@ -83,14 +92,20 @@ public class CurrentGameScorecard extends ActionBarActivity {
             playersPreviousValues = new TextView[noOfPlayers];
 
             winnerImages = new ImageView[noOfPlayers];
-            tvRound.setText("Round " + scoresList.size());
-            tvRound.setTextAppearance(getApplicationContext(),R.style.boldText);
+
+            styleSpan = new StyleSpan(android.graphics.Typeface.BOLD);
+
             if(gameParcelableObject.getGameType().equals("Min")) {
-                tvLimit.setText("( Max Score : " + gameLimitValue + " )");
-            }else {
-                tvLimit.setText("( No Max Value Set )");
+                SpannableStringBuilder sb = new SpannableStringBuilder("Round " + scoresList.size() + "\n(Max Score : " + gameLimitValue + ")");
+                sb.setSpan(styleSpan, 0, 6 + Integer.toString(scoresList.size()).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                tvRound.setText(sb);
             }
-            tvLimit.setTextAppearance(getApplicationContext(), R.style.boldText);
+            else {
+                tvRound.setText("Round " + scoresList.size());
+                tvRound.setTextAppearance(getApplicationContext(), R.style.boldText);
+            }
+            //tvRound.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            tvRound.setLayoutParams(params);
 
             for(int i = 0; i< noOfPlayers; i++){
 
@@ -114,6 +129,13 @@ public class CurrentGameScorecard extends ActionBarActivity {
                 currentValueList[i].setBackgroundColor(Color.rgb(253, 253, 253));
                 currentValueList[i].setFocusable(true);
                 currentValueList[i].setGravity(Gravity.LEFT);
+
+                // limiting max length for current values edit text
+                int maxDigits = 5;
+                //InputFilter[] FilterArray = new InputFilter[1];
+                //FilterArray[0] = new InputFilter.LengthFilter(maxLength);
+                //currentValueList[i].setFilters(FilterArray);
+                currentValueList[i].setFilters(new InputFilter[] { new InputFilter.LengthFilter(maxDigits) });
 
                 currentValueList[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
@@ -160,13 +182,13 @@ public class CurrentGameScorecard extends ActionBarActivity {
                             playersPreviousValues[i].setTextColor(Color.RED);
                             playersTotalValues[i].setTextColor(Color.RED);
                             playersList[i].setTextColor(Color.RED);
-                            currentValueList[i].setText("0");
+                            currentValueList[i].setText(knockOutString);
                         }
                     }
                 }
             }
 
-            doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, tvLimit, namesList, gameParcelableObject.getGameType(), playersList, currentValueList, playersPreviousValues, playersTotalValues, winnerImages));
+            doneEntering.setOnClickListener(updateScores(noOfPlayers, tvRound, namesList, gameParcelableObject.getGameType(), playersList, currentValueList, playersPreviousValues, playersTotalValues, winnerImages));
             viewDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -184,7 +206,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
         }
     }
 
-    public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final TextView tvLimit, final ArrayList<String> players, final String mode, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues, final ImageView[] images) {
+    public View.OnClickListener updateScores(final int noOfPlayers, final TextView tvRound, final ArrayList<String> players, final String mode, final TextView[] playersList, final EditText[] currentValues, final TextView[] previousValues, final TextView[] totalValues, final ImageView[] images) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,16 +228,25 @@ public class CurrentGameScorecard extends ActionBarActivity {
                         ArrayList<String> totalScores = new ArrayList<String>();
                         JSONObject tmpObj = new JSONObject();
                         JSONObject tmpObjTotal = new JSONObject();
-
+                        int currentValue;
                         for (int i = 0; i < noOfPlayers; i++) {
 
-                            int currentValue = Integer.parseInt(currentValues[i].getText().toString());
-                            tmpObj.put(playersList[i].getText().toString(), currentValue);
-                            previousValues[i].setText("" + currentValue);
+                            if(currentValues[i].getText().toString().equalsIgnoreCase(knockOutString)) {
+                                currentValue = 0;
+                                tmpObj.put(playersList[i].getText().toString(), knockOutString);
+                                previousValues[i].setText("" + knockOutString);
+                            }else {
+                                currentValue = Integer.parseInt(currentValues[i].getText().toString());
+                                tmpObj.put(playersList[i].getText().toString(), currentValue);
+                                previousValues[i].setText("" + currentValue);
+                            }
+
+
                             int currentTotalValue = currentValue + Integer.parseInt(totalValues[i].getText().toString());
                             totalValues[i].setText("" + currentTotalValue);
                             tmpObjTotal.put(playersList[i].getText().toString(), totalValues[i].getText().toString());
                             currentValues[i].setText("");
+
                         }
 
                         for(int i=0; i<players.size(); i++) {
@@ -247,7 +278,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                                 previousValues[i].setTextColor(Color.RED);
                                 totalValues[i].setTextColor(Color.RED);
                                 playersList[i].setTextColor(Color.RED);
-                                currentValues[i].setText("0");
+                                currentValues[i].setText(knockOutString);
                             }
                         }
 
@@ -257,7 +288,17 @@ public class CurrentGameScorecard extends ActionBarActivity {
                         gameParcelableObject.setGameTotalScores(totalScores);
 
                         gameParcelableObject.setGameWinners(winnersList);
-                        tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
+                        //tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
+                        if(gameParcelableObject.getGameType().equals("Min")) {
+                            SpannableStringBuilder sb = new SpannableStringBuilder("Round " + gameParcelableObject.getGameScores().size() + "\n(Max Score : " + gameLimitValue + ")");
+                            sb.setSpan(styleSpan, 0, 6 + Integer.toString(gameParcelableObject.getGameScores().size()).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                            tvRound.setText(sb);
+                        }
+                        else {
+                            tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
+                            tvRound.setTextAppearance(getApplicationContext(), R.style.boldText);
+                        }
+                        tvRound.setLayoutParams(params);
 
                         updateDatabase(gameParcelableObject);
 

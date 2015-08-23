@@ -36,10 +36,10 @@
     <string name="show_limit_hint">Show Limit</string>
     <string name="update_score_button">Update</string>
     <string name="view_details_button">View</string>
-    <string name="player_name_label">Player\nName</string>
-    <string name="enter_score_label">Current\nScore</string>
-    <string name="previous_score_label">Previous\nScore</string>
-    <string name="total_score_label">Total\nScore</string>
+    <string name="player_name_label">Player</string>
+    <string name="enter_score_label">Current</string>
+    <string name="previous_score_label">Previous</string>
+    <string name="total_score_label">Total</string>
     <string name="clone_game">Clone</string>
     <string name="title_activity_home_page">HomePage</string>
     <string name="history_content_string">You haven\'t played any games yet.</string>
