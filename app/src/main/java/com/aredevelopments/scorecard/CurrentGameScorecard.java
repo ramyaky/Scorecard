@@ -96,7 +96,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
             styleSpan = new StyleSpan(android.graphics.Typeface.BOLD);
 
             if(gameParcelableObject.getGameType().equals("Min")) {
-                SpannableStringBuilder sb = new SpannableStringBuilder("Round " + scoresList.size() + "\n(Max Score : " + gameLimitValue + ")");
+                SpannableStringBuilder sb = new SpannableStringBuilder("        Round " + scoresList.size() + "\n(Max Score : " + gameLimitValue + ")");
                 sb.setSpan(styleSpan, 0, 6 + Integer.toString(scoresList.size()).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 tvRound.setText(sb);
             }
@@ -290,7 +290,7 @@ public class CurrentGameScorecard extends ActionBarActivity {
                         gameParcelableObject.setGameWinners(winnersList);
                         //tvRound.setText("Round " + gameParcelableObject.getGameScores().size());
                         if(gameParcelableObject.getGameType().equals("Min")) {
-                            SpannableStringBuilder sb = new SpannableStringBuilder("Round " + gameParcelableObject.getGameScores().size() + "\n(Max Score : " + gameLimitValue + ")");
+                            SpannableStringBuilder sb = new SpannableStringBuilder("        Round " + gameParcelableObject.getGameScores().size() + "\n(Max Score : " + gameLimitValue + ")");
                             sb.setSpan(styleSpan, 0, 6 + Integer.toString(gameParcelableObject.getGameScores().size()).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                             tvRound.setText(sb);
                         }

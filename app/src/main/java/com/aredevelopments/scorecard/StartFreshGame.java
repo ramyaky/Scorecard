@@ -26,11 +26,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 public class StartFreshGame extends ActionBarActivity {
 
-    HashMap<String,Integer> names = new HashMap<String, Integer>();
+    LinkedHashMap<String,Integer> names = new LinkedHashMap<String, Integer>();
     boolean flag = true;
     RadioButton winMode;
     RadioGroup winModeGroup;
