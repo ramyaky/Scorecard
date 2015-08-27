@@ -69,14 +69,19 @@ public class StartFreshGame extends ActionBarActivity {
                         limitValueButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                gameLimitScore = Integer.parseInt(limitValueEditText.getText().toString());
-                                if (gameLimitScore > 100000000) {
-                                    limitValueEditText.setError("Max limit is 99999999");
-                                } else {
-                                    dialog.dismiss();
-                                    Toast.makeText(StartFreshGame.this, "Limit is : " + gameLimitScore, Toast.LENGTH_SHORT).show();
+                                if(limitValueEditText.getText().toString().length() != 0) {
+                                    gameLimitScore = Integer.parseInt(limitValueEditText.getText().toString());
+                                    if (gameLimitScore > 100000000) {
+                                        limitValueEditText.setError("Max limit is 99999999");
+                                    } else {
+                                        dialog.dismiss();
+                                        Toast.makeText(StartFreshGame.this, "Limit is : " + gameLimitScore, Toast.LENGTH_SHORT).show();
+                                    }
+                                }else {
+                                    limitValueEditText.setError("Value Required");
                                 }
                             }
+
                         });
 
                         dialog.show();
