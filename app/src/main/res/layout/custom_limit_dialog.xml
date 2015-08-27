@@ -32,11 +32,23 @@
         android:textColor="#FFFFFF"
         android:text="@string/limit_score_button"
         android:id="@+id/limitButton"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:padding="7dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/mybuttonstyle"
-        android:layout_below="@+id/limitLabel"
-         android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/textView8"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/maxlimitString"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/limitValue"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+
+         />
 
 </RelativeLayout>
